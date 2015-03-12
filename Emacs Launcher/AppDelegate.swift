@@ -6,8 +6,6 @@
 //  Copyright (c) 2015 Billy He. All rights reserved.
 //
 
-// https://nsrover.wordpress.com/2014/10/10/creating-a-os-x-menubar-only-app
-
 import Cocoa
 
 @NSApplicationMain
@@ -15,11 +13,17 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     @IBOutlet weak var window: NSWindow!;
     
     var statusItem: NSStatusItem!;
-    var darkModeOn: Bool!;
+    var statusMenu: LauncherMenu!;
     
     func applicationDidFinishLaunching(aNotification: NSNotification) {
-        self.statusItem = NSStatusBar.systemStatusBar().statusItemWithLength(NSVariableStatusItemLength);
-        self.statusItem.image = NSImage(named: "switchIcon.png");
+        // TODO: Replace -1 with NSVariableStatusItemLength after Swift fixes its bug
+        statusItem = NSStatusBar.systemStatusBar().statusItemWithLength(-1);
+        statusItem.image = NSImage(named: "switchIcon");
+        
+        statusMenu = LauncherMenu();
+        statusMenu.addItem(NSMenuItem(title: "aHah", action: nil, keyEquivalent: ""));
+        
+        statusItem.menu = statusMenu;
     }
 
     func applicationWillTerminate(aNotification: NSNotification) {
