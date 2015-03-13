@@ -9,24 +9,32 @@
 import Cocoa
 
 @NSApplicationMain
-class AppDelegate: NSObject, NSApplicationDelegate {
+public class AppDelegate: NSObject, NSApplicationDelegate, LauncherMenuAppDelegate {
     @IBOutlet weak var window: NSWindow!;
     
     var statusItem: NSStatusItem!;
     var statusMenu: LauncherMenu!;
+    var server: ServerController!;
     
-    func applicationDidFinishLaunching(aNotification: NSNotification) {
+    public func applicationDidFinishLaunching (aNotification: NSNotification) {
+        statusMenu = LauncherMenu();
+        server = ServerController();
+        
+        server.stateDelegate = statusMenu;
+        statusMenu.appDelegate = self;
+        statusMenu.serverDelegate = server;
+        
         // TODO: Replace -1 with NSVariableStatusItemLength after Swift fixes its bug
         statusItem = NSStatusBar.systemStatusBar().statusItemWithLength(-1);
         statusItem.image = NSImage(named: "switchIcon");
-        
-        statusMenu = LauncherMenu();
-        statusMenu.addItem(NSMenuItem(title: "aHah", action: nil, keyEquivalent: ""));
-        
-        statusItem.menu = statusMenu;
+        statusItem.menu = statusMenu.updateMenu();
     }
 
-    func applicationWillTerminate(aNotification: NSNotification) {
+    public func applicationWillTerminate (aNotification: NSNotification) {
         // Insert code here to tear down your application
+    }
+    
+    public func exit () {
+        NSTimer.scheduledTimerWithTimeInterval(0.1, target: NSApp, selector: Selector("terminate:"), userInfo: nil, repeats: false);
     }
 }

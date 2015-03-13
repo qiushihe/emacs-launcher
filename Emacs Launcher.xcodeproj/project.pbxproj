@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		2806CFFD1AB2406000078EB7 /* LauncherMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2806CFFC1AB2406000078EB7 /* LauncherMenu.swift */; };
+		CE7B97CB1AB2469D00093729 /* ServerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE7B97CA1AB2469D00093729 /* ServerController.swift */; };
 		CE925B211AB22C6B00657798 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE925B201AB22C6B00657798 /* AppDelegate.swift */; };
 		CE925B231AB22C6B00657798 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CE925B221AB22C6B00657798 /* Images.xcassets */; };
 		CE925B261AB22C6B00657798 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = CE925B241AB22C6B00657798 /* MainMenu.xib */; };
@@ -26,6 +27,7 @@
 
 /* Begin PBXFileReference section */
 		2806CFFC1AB2406000078EB7 /* LauncherMenu.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LauncherMenu.swift; sourceTree = "<group>"; };
+		CE7B97CA1AB2469D00093729 /* ServerController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ServerController.swift; sourceTree = "<group>"; };
 		CE925B1B1AB22C6B00657798 /* Emacs Launcher.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Emacs Launcher.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		CE925B1F1AB22C6B00657798 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		CE925B201AB22C6B00657798 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -77,6 +79,7 @@
 			children = (
 				CE925B201AB22C6B00657798 /* AppDelegate.swift */,
 				2806CFFC1AB2406000078EB7 /* LauncherMenu.swift */,
+				CE7B97CA1AB2469D00093729 /* ServerController.swift */,
 				CE925B221AB22C6B00657798 /* Images.xcassets */,
 				CE925B241AB22C6B00657798 /* MainMenu.xib */,
 				CE925B1E1AB22C6B00657798 /* Supporting Files */,
@@ -210,6 +213,7 @@
 			files = (
 				2806CFFD1AB2406000078EB7 /* LauncherMenu.swift in Sources */,
 				CE925B211AB22C6B00657798 /* AppDelegate.swift in Sources */,
+				CE7B97CB1AB2469D00093729 /* ServerController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
