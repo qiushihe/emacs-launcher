@@ -67,7 +67,6 @@ public class LauncherMenu: NSMenu, ServerControllerStateDelegate {
         NSLog("Server command: " + key!);
         
         if (key == "exit") {
-            serverDelegate.stop();
             appDelegate.exit();
         } else if (key == "start") {
             serverDelegate.start();
