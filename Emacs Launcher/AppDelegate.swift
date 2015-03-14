@@ -48,20 +48,22 @@ public class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate {
     
     func draggingEntered (sender: NSDraggingInfo) -> NSDragOperation {
         NSLog("drag entered");
-        return NSDragOperation.Copy;
+        return NSDragOperation.Link;
     }
     
-    func draggingExited (send: NSDraggingInfo) {
+    func draggingExited (sender: NSDraggingInfo) {
         NSLog("drag exited");
     }
     
-    func prepareForDragOperation (send: NSDraggingInfo) -> Bool {
+    func prepareForDragOperation (sender: NSDraggingInfo) -> Bool {
         NSLog("drag prepare");
         return true; // Return true to accept
     }
     
-    func performDragOperation (send: NSDraggingInfo) -> Bool {
+    func performDragOperation (sender: NSDraggingInfo) -> Bool {
         NSLog("drag perform");
+        let pboard = sender.draggingPasteboard();
+        let files = pboard.propertyListForType(NSFilenamesPboardType) as Array<String>;
         return true;
     }
 }
