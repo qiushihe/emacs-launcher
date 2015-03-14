@@ -9,19 +9,13 @@
 import Foundation
 
 public class ServerController : NSObject {
-    var running: Bool;
-    var pid: Int;
-    var menu: LauncherMenu!;
-    var serverPath: String!;
-    var client: ClientController!;
-    var command: CommandController!;
+    @IBOutlet weak var preferenceController: PreferenceController!;
+    @IBOutlet weak var command: CommandRunner!;
+    @IBOutlet weak var client: ClientController!;
+    @IBOutlet weak var menu: LauncherMenu!;
     
-    public init (aPath: String) {
-        running = false;
-        pid = 0;
-        serverPath = aPath;
-        super.init();
-    }
+    var running = false;
+    var pid = 0;
     
     public func isRunning () -> Bool {
         return running;
@@ -40,7 +34,7 @@ public class ServerController : NSObject {
             // Start Emacs daemon with a bash login shell in order for the daemon process to have
             // access to all $PATH.
             // TODO: Pipe the output to system console
-            command.runCommandWithoutOutput("/bin/bash", args: ["-l", "-c", serverPath + " --daemon"]);
+            command.runCommandWithoutOutput("/bin/bash", args: ["-l", "-c", preferenceController.read("serverPath") + " --daemon"]);
             
             pid = checkPid();
             if (pid > 0) {

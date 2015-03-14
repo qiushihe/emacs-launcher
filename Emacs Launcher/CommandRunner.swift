@@ -1,5 +1,5 @@
 //
-//  CommandController.swift
+//  CommandRunner.swift
 //  Emacs Launcher
 //
 //  Created by Qiushi (Billy) He on 2015-03-13.
@@ -8,7 +8,7 @@
 
 import Foundation
 
-public class CommandController : NSObject {
+public class CommandRunner : NSObject {
     public func runCommand (cmd: String, args: Array<String>) -> String {
         NSLog("Running: " + cmd + " " + " ".join(args));
         

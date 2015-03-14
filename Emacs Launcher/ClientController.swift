@@ -9,21 +9,17 @@
 import Foundation
 
 public class ClientController : NSObject {
-    var clientPath: String;
+    @IBOutlet weak var preferenceController: PreferenceController!;
+    @IBOutlet weak var command: CommandRunner!;
+
     var launchCommand: String!;
-    var command: CommandController!;
-    
-    public init (aPath: String) {
-        clientPath = aPath;
-        super.init();
-    }
     
     public func start () {
-        command.runCommandWithoutOutput(clientPath, args: ["-n", "-c", "-e", ensureLaunchCommand()]);
+        command.runCommandWithoutOutput(preferenceController.read("clientPath"), args: ["-n", "-c", "-e", ensureLaunchCommand()]);
     }
     
     public func eval (expression: String) -> String {
-        return command.runCommand(clientPath, args: ["-e", expression]);
+        return command.runCommand(preferenceController.read("clientPath"), args: ["-e", expression]);
     }
     
     func ensureLaunchCommand () -> String {

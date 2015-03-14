@@ -9,18 +9,14 @@
 import Cocoa
 
 public class LauncherMenu: NSMenu {
-    var appDelegate: AppDelegate!;
-    var server: ServerController!;
-    var client: ClientController!;
-    var menuItemKeys: Dictionary<NSMenuItem, String>!;
+    @IBOutlet weak var appDelegate: AppDelegate!;
+    @IBOutlet weak var server: ServerController!;
+    @IBOutlet weak var client: ClientController!;
+    
+    var menuItemKeys = Dictionary<NSMenuItem, String>();
     
     public required init (coder: NSCoder) {
         super.init(coder: coder);
-    }
-    
-    public override init () {
-        super.init(title: "Emacs Launcher Menu");
-        menuItemKeys = Dictionary<NSMenuItem, String>();
     }
     
     public func updateMenu () -> LauncherMenu {
