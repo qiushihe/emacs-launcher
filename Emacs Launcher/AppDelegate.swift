@@ -9,7 +9,7 @@
 import Cocoa
 
 @NSApplicationMain
-public class AppDelegate: NSObject, NSApplicationDelegate {
+public class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate {
     @IBOutlet weak var menu: LauncherMenu!;
     @IBOutlet weak var preferenceController: PreferenceController!;
     @IBOutlet weak var server: ServerController!;
@@ -26,6 +26,9 @@ public class AppDelegate: NSObject, NSApplicationDelegate {
         statusItem.image = NSImage(named: "Menubar Icon");
         statusItem.menu = menu.updateMenu();
         
+        statusItem.button?.window?.registerForDraggedTypes([NSFilenamesPboardType]);
+        statusItem.button?.window?.delegate = self;
+        
         // TODO: Make starting server on startup optional
         server.start();
         client.start();
@@ -38,5 +41,27 @@ public class AppDelegate: NSObject, NSApplicationDelegate {
     
     public func exit () {
         NSTimer.scheduledTimerWithTimeInterval(0.1, target: NSApp, selector: Selector("terminate:"), userInfo: nil, repeats: false);
+    }
+    
+    // NSDraggingDestination Ptotocol
+    // https://developer.apple.com/library/mac/documentation/Cocoa/Reference/ApplicationKit/Protocols/NSDraggingDestination_Protocol
+    
+    func draggingEntered (sender: NSDraggingInfo) -> NSDragOperation {
+        NSLog("drag entered");
+        return NSDragOperation.Copy;
+    }
+    
+    func draggingExited (send: NSDraggingInfo) {
+        NSLog("drag exited");
+    }
+    
+    func prepareForDragOperation (send: NSDraggingInfo) -> Bool {
+        NSLog("drag prepare");
+        return true; // Return true to accept
+    }
+    
+    func performDragOperation (send: NSDraggingInfo) -> Bool {
+        NSLog("drag perform");
+        return true;
     }
 }
