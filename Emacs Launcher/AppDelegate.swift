@@ -23,7 +23,7 @@ public class AppDelegate: NSObject, NSApplicationDelegate {
         
         // TODO: Replace -1 with NSVariableStatusItemLength after Swift fixes its bug
         statusItem = NSStatusBar.systemStatusBar().statusItemWithLength(-1);
-        statusItem.image = NSImage(named: "switchIcon");
+        statusItem.image = NSImage(named: "Menubar Icon");
         statusItem.menu = menu.updateMenu();
         
         // TODO: Make starting server on startup optional
