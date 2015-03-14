@@ -9,23 +9,33 @@
 import Cocoa
 
 @NSApplicationMain
-public class AppDelegate: NSObject, NSApplicationDelegate, LauncherMenuAppDelegate {
+public class AppDelegate: NSObject, NSApplicationDelegate {
     @IBOutlet weak var window: NSWindow!;
     
     var preferences: Dictionary<String, String>!;
     var statusItem: NSStatusItem!;
     var statusMenu: LauncherMenu!;
     var server: ServerController!;
+    var client: ClientController!;
+    var command: CommandController!;
     
     public func applicationDidFinishLaunching (aNotification: NSNotification) {
         loadPreferences();
         
-        statusMenu = LauncherMenu();
-        server = ServerController(server: preferences["serverPath"]!, client: preferences["clientPath"]!);
+        command = CommandController();
         
-        server.stateDelegate = statusMenu;
+        client = ClientController(aPath: preferences["clientPath"]!);
+        client.command = command;
+        
+        statusMenu = LauncherMenu();
+        server = ServerController(aPath: preferences["serverPath"]!);
+        server.command = command;
+        server.client = client;
+        
+        server.menu = statusMenu;
         statusMenu.appDelegate = self;
-        statusMenu.serverDelegate = server;
+        statusMenu.server = server;
+        statusMenu.client = client;
         
         // TODO: Replace -1 with NSVariableStatusItemLength after Swift fixes its bug
         statusItem = NSStatusBar.systemStatusBar().statusItemWithLength(-1);
@@ -34,23 +44,7 @@ public class AppDelegate: NSObject, NSApplicationDelegate, LauncherMenuAppDelega
         
         // TODO: Make starting server on startup optional
         server.start();
-        
-        let launchCommand = "(progn" +
-            "  (switch-to-buffer \"*scratch*\")" +
-            "  (select-frame-set-input-focus (selected-frame))" +
-            "  (make-variable-frame-local 'working-directory)" +
-            "  (modify-frame-parameters nil '((working-directory . \"/Users/bhe36\")))" +
-            "  (cd working-directory)" +
-            "  (set-frame-parameter nil 'fullscreen 'maximized)" +
-            "  (set-frame-parameter nil 'top 0)" +
-            "  (set-frame-parameter nil 'left 0)" +
-        ")";
-
-        let task = NSTask();
-        task.launchPath = "/Applications/Emacs.app/Contents/MacOS/bin/emacsclient";
-        task.arguments = ["-n", "-c", "-e", launchCommand];
-        task.launch();
-        task.waitUntilExit();
+        client.start();
     }
 
     public func applicationWillTerminate (aNotification: NSNotification) {

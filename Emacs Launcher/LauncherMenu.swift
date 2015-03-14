@@ -8,21 +8,10 @@
 
 import Cocoa
 
-protocol LauncherMenuAppDelegate : NSObjectProtocol {
-    func exit();
-}
-
-protocol LauncherMenuServerDelegate : NSObjectProtocol {
-    func isRunning() -> Bool;
-    func getPid() -> Int;
-    func start();
-    func stop();
-    func restart();
-}
-
-public class LauncherMenu: NSMenu, ServerControllerStateDelegate {
-    var appDelegate: LauncherMenuAppDelegate!;
-    var serverDelegate: LauncherMenuServerDelegate!;
+public class LauncherMenu: NSMenu {
+    var appDelegate: AppDelegate!;
+    var server: ServerController!;
+    var client: ClientController!;
     var menuItemKeys: Dictionary<NSMenuItem, String>!;
     
     public required init (coder: NSCoder) {
@@ -37,14 +26,15 @@ public class LauncherMenu: NSMenu, ServerControllerStateDelegate {
     public func updateMenu () -> LauncherMenu {
         removeAllItems();
         
-        var serverStatus = "Server: " + (serverDelegate.isRunning() ? ("Running (PID " + String(serverDelegate.getPid()) + ")") : "Not running");
+        var serverStatus = "Server: " + (server.isRunning() ? ("Running (PID " + String(server.getPid()) + ")") : "Not running");
         addItem(NSMenuItem(title: serverStatus, action: nil, keyEquivalent: ""));
         
-        if (!serverDelegate.isRunning()) {
-            addMenuItem("start", title: "Start server");
+        if (!server.isRunning()) {
+            addMenuItem("start-server", title: "Start server");
         } else {
-            addMenuItem("stop", title: "Stop server");
-            addMenuItem("restart", title: "Restart server");
+            addMenuItem("stop-server", title: "Stop server");
+            addMenuItem("restart-server", title: "Restart server");
+            addMenuItem("restart-both", title: "Restart server/client");
         }
         
         addMenuItem("exit", title: "Exit Emacs Launcher");
@@ -68,16 +58,15 @@ public class LauncherMenu: NSMenu, ServerControllerStateDelegate {
         
         if (key == "exit") {
             appDelegate.exit();
-        } else if (key == "start") {
-            serverDelegate.start();
-        } else if (key == "stop") {
-            serverDelegate.stop();
-        } else if (key == "restart") {
-            serverDelegate.restart();
+        } else if (key == "start-server") {
+            server.start();
+        } else if (key == "stop-server") {
+            server.stop();
+        } else if (key == "restart-server") {
+            server.restart();
+        } else if (key == "restart-both") {
+            server.restart();
+            client.start();
         }
-    }
-    
-    func stateDidChange() {
-        updateMenu();
     }
 }

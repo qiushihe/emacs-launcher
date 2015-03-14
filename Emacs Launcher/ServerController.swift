@@ -8,24 +8,19 @@
 
 import Foundation
 
-@objc protocol ServerControllerStateDelegate : NSObjectProtocol {
-    optional func stateDidChange();
-    optional func stateWillChange();
-}
-
-public class ServerController : NSObject, LauncherMenuServerDelegate {
-    var running: Bool!;
-    var pid: Int!;
-    var stateDelegate: ServerControllerStateDelegate!;
+public class ServerController : NSObject {
+    var running: Bool;
+    var pid: Int;
+    var menu: LauncherMenu!;
     var serverPath: String!;
-    var clientPath: String!;
+    var client: ClientController!;
+    var command: CommandController!;
     
-    public init (server: String, client: String) {
-        super.init();
+    public init (aPath: String) {
         running = false;
         pid = 0;
-        serverPath = server;
-        clientPath = client;
+        serverPath = aPath;
+        super.init();
     }
     
     public func isRunning () -> Bool {
@@ -37,15 +32,15 @@ public class ServerController : NSObject, LauncherMenuServerDelegate {
     }
     
     public func start () {
-        stateDelegate?.stateWillChange?();
-        
         pid = checkPid();
         if (pid > 0) {
             NSLog("Emacs server is already running. PID: " + String(pid));
             running = true;
         } else {
+            // Start Emacs daemon with a bash login shell in order for the daemon process to have
+            // access to all $PATH.
             // TODO: Pipe the output to system console
-            runCommand(serverPath, args: ["--daemon"]);
+            command.runCommandWithoutOutput("/bin/bash", args: ["-l", "-c", serverPath + " --daemon"]);
             
             pid = checkPid();
             if (pid > 0) {
@@ -56,20 +51,18 @@ public class ServerController : NSObject, LauncherMenuServerDelegate {
                 running = false;
             }
         }
-
-        stateDelegate?.stateDidChange?();
+        
+        menu.updateMenu();
     }
     
     public func stop () {
-        stateDelegate?.stateWillChange?();
-        
-        runCommand(clientPath, args: ["-e", "(kill-emacs)"]);
+        client.eval("(kill-emacs)");
         pid = checkPid();
         if (pid <= 0) {
             NSLog("Emacs server stopped.");
             running = false;
         } else {
-            runCommand("/bin/kill", args: ["-KILL", String(pid)]);
+            command.runCommandWithoutOutput("/bin/kill", args: ["-KILL", String(pid)]);
             pid = checkPid();
             if (pid <= 0) {
                 NSLog("Emacs server stopped.");
@@ -80,7 +73,7 @@ public class ServerController : NSObject, LauncherMenuServerDelegate {
             }
         }
         
-        stateDelegate?.stateDidChange?();
+        menu.updateMenu();
     }
     
     public func restart () {
@@ -89,36 +82,13 @@ public class ServerController : NSObject, LauncherMenuServerDelegate {
     }
     
     func checkPid () -> Int {
-        let output = runCommand(clientPath, args: ["-e", "(emacs-pid)"]);
+        let output = client.eval("(emacs-pid)");
         let outputPid = output.toInt();
         
         if (outputPid != nil) {
             return outputPid!;
         } else {
             return 0;
-        }
-    }
-    
-    func runCommand (cmd: String, args: Array<String>) -> String {
-        NSLog("Running: " + cmd + " " + " ".join(args));
-        
-        let pipe = NSPipe();
-        let task = NSTask();
-        
-        // TODO: Fix an issue with ispell no in PATH
-        task.launchPath = cmd;
-        task.arguments = args;
-        task.standardOutput = pipe;
-        task.launch();
-        task.waitUntilExit();
-        
-        let data = pipe.fileHandleForReading.readDataToEndOfFile();
-        let output = NSString(data: data, encoding: NSUTF8StringEncoding);
-        
-        if (output != nil) {
-            return output!.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet());
-        } else {
-            return "";
         }
     }
 }
