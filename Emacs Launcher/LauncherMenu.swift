@@ -55,6 +55,7 @@ public class LauncherMenu: NSMenu {
             appDelegate.exit();
         } else if (key == "start-server") {
             server.start();
+            client.start();
         } else if (key == "stop-server") {
             server.stop();
         } else if (key == "restart-server") {
