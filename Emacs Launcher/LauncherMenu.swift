@@ -30,7 +30,6 @@ public class LauncherMenu: NSMenu {
         } else {
             addMenuItem("stop-server", title: "Stop server");
             addMenuItem("restart-server", title: "Restart server");
-            addMenuItem("restart-both", title: "Restart server/client");
         }
         
         addMenuItem("exit", title: "Exit Emacs Launcher");
@@ -56,11 +55,10 @@ public class LauncherMenu: NSMenu {
             appDelegate.exit();
         } else if (key == "start-server") {
             server.start();
+            client.start();
         } else if (key == "stop-server") {
             server.stop();
         } else if (key == "restart-server") {
-            server.restart();
-        } else if (key == "restart-both") {
             server.restart();
             client.start();
         }
