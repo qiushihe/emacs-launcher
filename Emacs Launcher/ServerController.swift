@@ -13,6 +13,7 @@ public class ServerController : NSObject {
     @IBOutlet weak var command: CommandRunner!;
     @IBOutlet weak var client: ClientController!;
     @IBOutlet weak var menu: LauncherMenu!;
+    @IBOutlet weak var iconController: MenubarIconController!;
     
     var running = false;
     var pid = 0;
@@ -31,6 +32,7 @@ public class ServerController : NSObject {
             NSLog("Emacs server is already running. PID: " + String(pid));
             running = true;
         } else {
+            iconController.loading();
             // Start Emacs daemon with a bash login shell in order for the daemon process to have
             // access to all $PATH.
             // TODO: Pipe the output to system console
@@ -44,6 +46,7 @@ public class ServerController : NSObject {
                 NSLog("Error starting Emacs server!");
                 running = false;
             }
+            iconController.normal();
         }
         
         menu.updateMenu();

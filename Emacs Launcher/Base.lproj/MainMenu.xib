@@ -15,6 +15,7 @@
         <customObject id="Voe-Tx-rLC" customClass="AppDelegate" customModule="Emacs_Launcher" customModuleProvider="target">
             <connections>
                 <outlet property="client" destination="bCB-uk-zaM" id="TcV-5v-NUj"/>
+                <outlet property="iconController" destination="KA1-OJ-Cqc" id="jcM-3N-k0E"/>
                 <outlet property="menu" destination="S7g-C4-RRg" id="7Z0-LX-IK0"/>
                 <outlet property="preferenceController" destination="4eG-dl-Gp9" id="3gZ-bL-Lde"/>
                 <outlet property="server" destination="hy8-KI-Cjc" id="edo-c8-IEw"/>
@@ -41,8 +42,14 @@
             <connections>
                 <outlet property="client" destination="bCB-uk-zaM" id="WLK-qb-YBQ"/>
                 <outlet property="command" destination="iZo-UE-XKW" id="XyQ-uY-rG7"/>
+                <outlet property="iconController" destination="KA1-OJ-Cqc" id="aPF-NB-Tdz"/>
                 <outlet property="menu" destination="S7g-C4-RRg" id="hw3-9C-3xG"/>
                 <outlet property="preferenceController" destination="4eG-dl-Gp9" id="Zjq-MU-nLt"/>
+            </connections>
+        </customObject>
+        <customObject id="KA1-OJ-Cqc" customClass="MenubarIconController" customModule="Emacs_Launcher" customModuleProvider="target">
+            <connections>
+                <outlet property="app" destination="Voe-Tx-rLC" id="jvR-oW-QP5"/>
             </connections>
         </customObject>
     </objects>

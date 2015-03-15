@@ -14,6 +14,7 @@ public class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate {
     @IBOutlet weak var preferenceController: PreferenceController!;
     @IBOutlet weak var server: ServerController!;
     @IBOutlet weak var client: ClientController!;
+    @IBOutlet weak var iconController: MenubarIconController!;
     
     var preferences: Dictionary<String, String>!;
     var statusItem: NSStatusItem!;
@@ -23,11 +24,12 @@ public class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate {
         
         // TODO: Replace -1 with NSVariableStatusItemLength after Swift fixes its bug
         statusItem = NSStatusBar.systemStatusBar().statusItemWithLength(-1);
-        statusItem.image = NSImage(named: "Menubar Icon");
         statusItem.menu = menu.updateMenu();
         
         statusItem.button?.window?.registerForDraggedTypes([NSFilenamesPboardType]);
         statusItem.button?.window?.delegate = self;
+        
+        iconController.normal();
         
         // TODO: Make starting server on startup optional
         server.start();
