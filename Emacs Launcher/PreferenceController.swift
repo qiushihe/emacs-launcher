@@ -9,6 +9,8 @@
 import Foundation
 
 public class PreferenceController : NSObject {
+    @IBOutlet weak var command: CommandRunner!;
+    
     var preferences: Dictionary<String, String>!;
     
     func read (key: String) -> String {
@@ -34,6 +36,7 @@ public class PreferenceController : NSObject {
     func ensureAllPreferenceDefaults () {
         ensurePreferenceDefault("serverPath", defaultValue: "/Applications/Emacs.app/Contents/MacOS/Emacs");
         ensurePreferenceDefault("clientPath", defaultValue: "/Applications/Emacs.app/Contents/MacOS/bin/emacsclient");
+        ensurePreferenceDefault("defaultDirectory", defaultValue: command.runCommand("/bin/bash", args: ["-c", "echo $HOME"]));
     }
     
     func ensurePreferenceDefault (key: String, defaultValue: String) {

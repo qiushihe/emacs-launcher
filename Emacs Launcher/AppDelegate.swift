@@ -33,7 +33,7 @@ public class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate {
         
         // TODO: Make starting server on startup optional
         server.start();
-        client.start();
+        client.launchClient();
     }
 
     public func applicationWillTerminate (aNotification: NSNotification) {
@@ -45,27 +45,34 @@ public class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate {
         NSTimer.scheduledTimerWithTimeInterval(0.1, target: NSApp, selector: Selector("terminate:"), userInfo: nil, repeats: false);
     }
     
-    // NSDraggingDestination Ptotocol
-    // https://developer.apple.com/library/mac/documentation/Cocoa/Reference/ApplicationKit/Protocols/NSDraggingDestination_Protocol
-    
     func draggingEntered (sender: NSDraggingInfo) -> NSDragOperation {
-        NSLog("drag entered");
         return NSDragOperation.Link;
     }
     
-    func draggingExited (sender: NSDraggingInfo) {
-        NSLog("drag exited");
+    func prepareForDragOperation (sender: NSDraggingInfo) -> Bool {
+        return true;
     }
     
-    func prepareForDragOperation (sender: NSDraggingInfo) -> Bool {
-        NSLog("drag prepare");
-        return true; // Return true to accept
+    func draggingEnded(sender: NSDraggingInfo?) {
+        let location = sender?.draggingLocation();
+        let frame = statusItem.button?.frame;
+        
+        // Work around a DnD bug: http://stackoverflow.com/a/10825816
+        if (location != nil && frame != nil && NSPointInRect(location!, frame!)) {
+            performDragOperation(sender!);
+        }
     }
     
     func performDragOperation (sender: NSDraggingInfo) -> Bool {
-        NSLog("drag perform");
         let pboard = sender.draggingPasteboard();
         let files = pboard.propertyListForType(NSFilenamesPboardType) as Array<String>;
+        
+        // Reverse the opening order so the first file is the last to be opened and thus
+        // is the one the user is looking at in the end
+        for filePath in files.reverse() {
+            client.openFile(filePath);
+        }
+
         return true;
     }
 }

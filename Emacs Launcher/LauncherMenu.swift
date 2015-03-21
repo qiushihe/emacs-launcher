@@ -15,10 +15,6 @@ public class LauncherMenu: NSMenu {
     
     var menuItemKeys = Dictionary<NSMenuItem, String>();
     
-    public required init (coder: NSCoder) {
-        super.init(coder: coder);
-    }
-    
     public func updateMenu () -> LauncherMenu {
         removeAllItems();
         
@@ -55,12 +51,12 @@ public class LauncherMenu: NSMenu {
             appDelegate.exit();
         } else if (key == "start-server") {
             server.start();
-            client.start();
+            client.launchClient();
         } else if (key == "stop-server") {
             server.stop();
         } else if (key == "restart-server") {
             server.restart();
-            client.start();
+            client.launchClient();
         }
     }
 }
