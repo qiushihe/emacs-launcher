@@ -24,6 +24,7 @@ public class PreferenceController : NSObject {
             preferences = Dictionary<String, String>();
         }
         
+        // command.runCommandWithoutOutput("/bin/bash", args: ["-c", "echo $HOME"]);
         ensureAllPreferenceDefaults();
         savePreferences();
     }

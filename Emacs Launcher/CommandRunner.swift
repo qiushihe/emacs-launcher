@@ -8,6 +8,8 @@
 
 import Foundation
 
+// TODO: Integrate https://github.com/supertommy/craft
+
 public class CommandRunner : NSObject {
     public func runCommand (cmd: String, args: Array<String>) -> String {
         NSLog("Running: " + cmd + " " + " ".join(args));
@@ -30,11 +32,14 @@ public class CommandRunner : NSObject {
     }
     
     public func runCommandWithoutOutput (cmd: String, args: Array<String>) -> NSTask {
-        NSLog("Running: " + cmd + " " + " ".join(args));
+        NSLog("Running without output: " + cmd + " " + " ".join(args));
         
         let task = taskForCommand(cmd, args: args);
 
         task.launch();
+        /* task.terminationHandler = { (task: NSTask!) in
+            NSLog("!!! Completed: " + cmd + " " + " ".join(args));
+        } */
         task.waitUntilExit();
         
         return task;
