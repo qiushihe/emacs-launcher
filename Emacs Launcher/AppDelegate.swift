@@ -10,10 +10,10 @@ import Cocoa
 
 @NSApplicationMain
 public class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate {
+    @IBOutlet weak var iconController: MenubarIconController!;
     @IBOutlet weak var preferenceController: PreferenceController!;
     @IBOutlet weak var server: ServerController!;
     @IBOutlet weak var client: ClientController!;
-    @IBOutlet weak var iconController: MenubarIconController!;
     @IBOutlet weak var preferencesWindow: NSWindow!;
     @IBOutlet weak var menubarMenu: NSMenu!;
     
@@ -21,8 +21,6 @@ public class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate {
     var statusItem: NSStatusItem!;
     
     public func applicationDidFinishLaunching (aNotification: NSNotification) {
-        preferenceController.loadPreferences();
-        
         // TODO: Replace -1 with NSVariableStatusItemLength after Swift fixes its bug
         statusItem = NSStatusBar.systemStatusBar().statusItemWithLength(-1);
         statusItem.menu = menubarMenu;
@@ -32,21 +30,32 @@ public class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate {
         
         iconController.normal();
         
-        // TODO: Make starting server on startup optional
-        // server.start();
-        // client.launchClient();
+        preferenceController.loadPreferences().then({ (value: Value) -> Value in
+            // TODO: Make starting server on startup optional
+            return self.server.start();
+        }).then({ (value: Value) -> Value in
+            // TODO: Make launching client on startup optional
+            return self.client.launchClient();
+        });
+    }
+    
+    @IBAction public func exit (sender: NSObject) {
+        exit();
     }
 
-    public func applicationWillTerminate (aNotification: NSNotification) {
+    public func exit () {
         // TODO: Make stopping server on exit optional
-        server.stop();
+        server.stop().then({ (value: Value) -> Value in
+            NSApplication.sharedApplication().terminate(self);
+            return nil;
+        });
     }
     
-    @IBAction public func exit (sender: NSObject? = nil) {
-        NSTimer.scheduledTimerWithTimeInterval(0.1, target: NSApp, selector: Selector("terminate:"), userInfo: nil, repeats: false);
+    @IBAction public func showPreferences (sender: NSObject) {
+        showPreferences();
     }
     
-    @IBAction public func showPreferences (sender: NSObject? = nil) {
+    public func showPreferences () {
         preferencesWindow.makeKeyAndOrderFront(self);
         NSApp.activateIgnoringOtherApps(true);
     }

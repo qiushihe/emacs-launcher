@@ -12,16 +12,16 @@ public class ClientController : NSObject {
     @IBOutlet weak var preferenceController: PreferenceController!;
     @IBOutlet weak var command: CommandRunner!;
 
-    public func launchClient () {
-        command.runCommandWithoutOutput(preferenceController.read("clientPath"), args: ["-n", "-c", "-e", launchClientCommand()]);
+    public func launchClient () -> Promise {
+        return command.run(preferenceController.read("clientPath"), args: ["-n", "-c", "-e", launchClientCommand()]);
     }
     
-    public func openFile (path: String) {
-        command.runCommandWithoutOutput(preferenceController.read("clientPath"), args: ["-n", "-e", openFileCommand(path)]);
+    public func openFile (path: String) -> Promise {
+        return command.run(preferenceController.read("clientPath"), args: ["-n", "-e", openFileCommand(path)]);
     }
     
-    public func eval (expression: String) -> String {
-        return command.runCommand(preferenceController.read("clientPath"), args: ["-e", expression]);
+    public func eval (expression: String) -> Promise {
+        return command.run(preferenceController.read("clientPath"), args: ["-e", expression]);
     }
     
     func launchClientCommand () -> String {

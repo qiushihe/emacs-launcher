@@ -15,14 +15,10 @@ public class MenubarIconController : NSObject {
     let menubarIconLoading = NSImage(named: "Menubar Icon - Loading");
     
     func normal () {
-        statusItem().image = menubarIcon;
+        app.statusItem.image = menubarIcon;
     }
     
     func loading () {
-        statusItem().image = menubarIconLoading;
-    }
-    
-    func statusItem () -> NSStatusItem {
-        return app.statusItem;
+        app.statusItem.image = menubarIconLoading;
     }
 }

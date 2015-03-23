@@ -17,27 +17,25 @@ public class PreferenceController : NSObject {
         return preferences[key]!;
     }
     
-    func loadPreferences () {
+    func loadPreferences () -> Promise {
         if let data = NSUserDefaults.standardUserDefaults().objectForKey("preferences") as? NSData {
             preferences = NSKeyedUnarchiver.unarchiveObjectWithData(data) as Dictionary<String, String>;
         } else {
             preferences = Dictionary<String, String>();
         }
         
-        // command.runCommandWithoutOutput("/bin/bash", args: ["-c", "echo $HOME"]);
-        ensureAllPreferenceDefaults();
-        savePreferences();
+        return command.run("/bin/bash", args: ["-c", "echo $HOME"]).then({ (value: Value) -> Value in
+            self.ensurePreferenceDefault("defaultDirectory", defaultValue: (value as String));
+            self.ensurePreferenceDefault("serverPath", defaultValue: "/Applications/Emacs.app/Contents/MacOS/Emacs");
+            self.ensurePreferenceDefault("clientPath", defaultValue: "/Applications/Emacs.app/Contents/MacOS/bin/emacsclient");
+            self.savePreferences();
+            return nil;
+        });
     }
     
     func savePreferences () {
         let data = NSKeyedArchiver.archivedDataWithRootObject(preferences);
         NSUserDefaults.standardUserDefaults().setObject(data, forKey: "preferences");
-    }
-    
-    func ensureAllPreferenceDefaults () {
-        ensurePreferenceDefault("serverPath", defaultValue: "/Applications/Emacs.app/Contents/MacOS/Emacs");
-        ensurePreferenceDefault("clientPath", defaultValue: "/Applications/Emacs.app/Contents/MacOS/bin/emacsclient");
-        ensurePreferenceDefault("defaultDirectory", defaultValue: command.runCommand("/bin/bash", args: ["-c", "echo $HOME"]));
     }
     
     func ensurePreferenceDefault (key: String, defaultValue: String) {

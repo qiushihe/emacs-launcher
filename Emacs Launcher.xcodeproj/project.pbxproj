@@ -8,6 +8,11 @@
 
 /* Begin PBXBuildFile section */
 		28642A481AB3D9FA0078050A /* PreferenceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28642A471AB3D9FA0078050A /* PreferenceController.swift */; };
+		289C8C521ABFAB7F00224B95 /* Craft.swift in Sources */ = {isa = PBXBuildFile; fileRef = 289C8C4D1ABFAB7F00224B95 /* Craft.swift */; };
+		289C8C531ABFAB7F00224B95 /* Deferred.swift in Sources */ = {isa = PBXBuildFile; fileRef = 289C8C4E1ABFAB7F00224B95 /* Deferred.swift */; };
+		289C8C541ABFAB7F00224B95 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 289C8C4F1ABFAB7F00224B95 /* Info.plist */; };
+		289C8C551ABFAB7F00224B95 /* Promise.swift in Sources */ = {isa = PBXBuildFile; fileRef = 289C8C501ABFAB7F00224B95 /* Promise.swift */; };
+		289C8C561ABFAB7F00224B95 /* SettledResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 289C8C511ABFAB7F00224B95 /* SettledResult.swift */; };
 		28F49AF41AB530C700EFA7B1 /* MenubarIconController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28F49AF31AB530C700EFA7B1 /* MenubarIconController.swift */; };
 		28F9E61C1AB3CAA100D1543F /* CommandRunner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28F9E61B1AB3CAA100D1543F /* CommandRunner.swift */; };
 		28F9E61E1AB3CCE000D1543F /* ClientController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28F9E61D1AB3CCE000D1543F /* ClientController.swift */; };
@@ -30,6 +35,12 @@
 
 /* Begin PBXFileReference section */
 		28642A471AB3D9FA0078050A /* PreferenceController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PreferenceController.swift; sourceTree = "<group>"; };
+		289C8C4C1ABFAB7F00224B95 /* craft.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = craft.h; sourceTree = "<group>"; };
+		289C8C4D1ABFAB7F00224B95 /* Craft.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Craft.swift; sourceTree = "<group>"; };
+		289C8C4E1ABFAB7F00224B95 /* Deferred.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Deferred.swift; sourceTree = "<group>"; };
+		289C8C4F1ABFAB7F00224B95 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		289C8C501ABFAB7F00224B95 /* Promise.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Promise.swift; sourceTree = "<group>"; };
+		289C8C511ABFAB7F00224B95 /* SettledResult.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettledResult.swift; sourceTree = "<group>"; };
 		28F49AF31AB530C700EFA7B1 /* MenubarIconController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenubarIconController.swift; sourceTree = "<group>"; };
 		28F9E61B1AB3CAA100D1543F /* CommandRunner.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommandRunner.swift; sourceTree = "<group>"; };
 		28F9E61D1AB3CCE000D1543F /* ClientController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ClientController.swift; sourceTree = "<group>"; };
@@ -62,6 +73,19 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		289C8C4B1ABFAB7F00224B95 /* craft */ = {
+			isa = PBXGroup;
+			children = (
+				289C8C4C1ABFAB7F00224B95 /* craft.h */,
+				289C8C4D1ABFAB7F00224B95 /* Craft.swift */,
+				289C8C4E1ABFAB7F00224B95 /* Deferred.swift */,
+				289C8C4F1ABFAB7F00224B95 /* Info.plist */,
+				289C8C501ABFAB7F00224B95 /* Promise.swift */,
+				289C8C511ABFAB7F00224B95 /* SettledResult.swift */,
+			);
+			path = craft;
+			sourceTree = "<group>";
+		};
 		CE925B121AB22C6A00657798 = {
 			isa = PBXGroup;
 			children = (
@@ -91,6 +115,7 @@
 				28F49AF31AB530C700EFA7B1 /* MenubarIconController.swift */,
 				CE925B221AB22C6B00657798 /* Images.xcassets */,
 				CE925B241AB22C6B00657798 /* MainMenu.xib */,
+				289C8C4B1ABFAB7F00224B95 /* craft */,
 				CE925B1E1AB22C6B00657798 /* Supporting Files */,
 			);
 			path = "Emacs Launcher";
@@ -203,6 +228,7 @@
 			files = (
 				CE925B231AB22C6B00657798 /* Images.xcassets in Resources */,
 				CE925B261AB22C6B00657798 /* MainMenu.xib in Resources */,
+				289C8C541ABFAB7F00224B95 /* Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -221,10 +247,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				28F9E61C1AB3CAA100D1543F /* CommandRunner.swift in Sources */,
+				289C8C521ABFAB7F00224B95 /* Craft.swift in Sources */,
+				289C8C531ABFAB7F00224B95 /* Deferred.swift in Sources */,
 				28642A481AB3D9FA0078050A /* PreferenceController.swift in Sources */,
 				28F9E61E1AB3CCE000D1543F /* ClientController.swift in Sources */,
+				289C8C551ABFAB7F00224B95 /* Promise.swift in Sources */,
 				CE925B211AB22C6B00657798 /* AppDelegate.swift in Sources */,
 				28F49AF41AB530C700EFA7B1 /* MenubarIconController.swift in Sources */,
+				289C8C561ABFAB7F00224B95 /* SettledResult.swift in Sources */,
 				CE7B97CB1AB2469D00093729 /* ServerController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -341,6 +371,10 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				COMBINE_HIDPI_IMAGES = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				INFOPLIST_FILE = "Emacs Launcher/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -352,6 +386,10 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				COMBINE_HIDPI_IMAGES = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				INFOPLIST_FILE = "Emacs Launcher/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";

@@ -8,41 +8,44 @@
 
 import Foundation
 
-// TODO: Integrate https://github.com/supertommy/craft
-
 public class CommandRunner : NSObject {
-    public func runCommand (cmd: String, args: Array<String>) -> String {
+    @IBOutlet weak var iconController: MenubarIconController!;
+    
+    var busy = false;
+    
+    public func run (cmd: String, args: Array<String>) -> Promise {
         NSLog("Running: " + cmd + " " + " ".join(args));
         
         let pipe = NSPipe();
         let task = taskForCommand(cmd, args: args);
-
+        
         task.standardOutput = pipe;
-        task.launch();
-        task.waitUntilExit();
+        task.standardError = pipe;
         
-        let data = pipe.fileHandleForReading.readDataToEndOfFile();
-        let output = NSString(data: data, encoding: NSUTF8StringEncoding);
+        iconController.loading();
+        busy = true;
         
-        if (output != nil) {
-            return output!.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet());
-        } else {
-            return "";
-        }
-    }
-    
-    public func runCommandWithoutOutput (cmd: String, args: Array<String>) -> NSTask {
-        NSLog("Running without output: " + cmd + " " + " ".join(args));
-        
-        let task = taskForCommand(cmd, args: args);
+        return Craft.promise({
+            (resolve: (value: Value) -> (), reject: (value: Value) -> ()) -> () in
+            
+            task.terminationHandler = { (task: NSTask!) in
+                let data = pipe.fileHandleForReading.readDataToEndOfFile();
+                var output = NSString(data: data, encoding: NSUTF8StringEncoding);
+                
+                if (output == nil) {
+                    output = "";
+                } else {
+                    output = output!.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet());
+                }
+                
+                self.busy = false;
+                self.iconController.normal();
 
-        task.launch();
-        /* task.terminationHandler = { (task: NSTask!) in
-            NSLog("!!! Completed: " + cmd + " " + " ".join(args));
-        } */
-        task.waitUntilExit();
-        
-        return task;
+                resolve(value: output!);
+            }
+            
+            task.launch();
+        });
     }
     
     func taskForCommand (cmd: String, args: Array<String>) -> NSTask {
