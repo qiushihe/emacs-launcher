@@ -39,6 +39,10 @@ public class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate {
         });
     }
     
+    public func application(sender: NSApplication, openFiles filenames: [AnyObject]) {
+        client.openFiles(filenames as Array<String>);
+    }
+    
     @IBAction public func exit (sender: NSObject) {
         exit();
     }
@@ -82,12 +86,7 @@ public class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate {
         let pboard = sender.draggingPasteboard();
         let files = pboard.propertyListForType(NSFilenamesPboardType) as Array<String>;
         
-        // Reverse the opening order so the first file is the last to be opened and thus
-        // is the one the user is looking at in the end
-        for filePath in files.reverse() {
-            client.openFile(filePath);
-        }
-
+        client.openFiles(files);
         return true;
     }
 }

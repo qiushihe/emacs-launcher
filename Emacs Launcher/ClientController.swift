@@ -16,6 +16,14 @@ public class ClientController : NSObject {
         return command.run(preferenceController.read("clientPath"), args: ["-n", "-c", "-e", launchClientCommand()]);
     }
     
+    public func openFiles (paths: Array<String>) {
+        // Reverse the opening order so the first file is the last to be opened and thus
+        // is the one the user is looking at in the end
+        for path in paths.reverse() {
+            openFile(path);
+        }
+    }
+    
     public func openFile (path: String) -> Promise {
         return command.run(preferenceController.read("clientPath"), args: ["-n", "-e", openFileCommand(path)]);
     }
