@@ -25,6 +25,7 @@ public class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate {
         statusItem = NSStatusBar.systemStatusBar().statusItemWithLength(-1);
         statusItem.menu = menubarMenu;
         
+        // TODO: Change to for 10.9
         statusItem.button?.window?.registerForDraggedTypes([NSFilenamesPboardType]);
         statusItem.button?.window?.delegate = self;
         
