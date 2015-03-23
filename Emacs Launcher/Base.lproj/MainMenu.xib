@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="6751" systemVersion="14C1510" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="6751" systemVersion="14D87p" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
     <dependencies>
         <deployment identifier="macosx"/>
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="6751"/>
@@ -16,19 +16,56 @@
             <connections>
                 <outlet property="client" destination="bCB-uk-zaM" id="TcV-5v-NUj"/>
                 <outlet property="iconController" destination="KA1-OJ-Cqc" id="jcM-3N-k0E"/>
-                <outlet property="menu" destination="S7g-C4-RRg" id="7Z0-LX-IK0"/>
+                <outlet property="menubarMenu" destination="vF7-Sj-CpS" id="q7R-KR-ZIL"/>
                 <outlet property="preferenceController" destination="4eG-dl-Gp9" id="3gZ-bL-Lde"/>
+                <outlet property="preferencesWindow" destination="Rdt-Sr-5pJ" id="s5f-go-WAf"/>
                 <outlet property="server" destination="hy8-KI-Cjc" id="edo-c8-IEw"/>
             </connections>
         </customObject>
         <customObject id="YLy-65-1bz" userLabel="Font Manager" customClass="NSFontManager"/>
-        <menu id="S7g-C4-RRg" customClass="LauncherMenu" customModule="Emacs_Launcher" customModuleProvider="target">
-            <connections>
-                <outlet property="appDelegate" destination="Voe-Tx-rLC" id="XDO-K5-cNQ"/>
-                <outlet property="client" destination="bCB-uk-zaM" id="xv0-11-WW4"/>
-                <outlet property="server" destination="hy8-KI-Cjc" id="t2J-Jj-roz"/>
-            </connections>
-            <point key="canvasLocation" x="-710" y="-351.5"/>
+        <menu id="vF7-Sj-CpS">
+            <items>
+                <menuItem title="Start server" tag="200" id="Jdn-GD-Ux3">
+                    <modifierMask key="keyEquivalentModifierMask"/>
+                    <connections>
+                        <action selector="startWithSender:" target="hy8-KI-Cjc" id="3w1-yP-GC9"/>
+                        <binding destination="hy8-KI-Cjc" name="enabled" keyPath="running" id="ijq-7C-iIE">
+                            <dictionary key="options">
+                                <string key="NSValueTransformerName">NSNegateBoolean</string>
+                            </dictionary>
+                        </binding>
+                    </connections>
+                </menuItem>
+                <menuItem title="Stop server" tag="210" id="5wB-O7-9XA">
+                    <modifierMask key="keyEquivalentModifierMask"/>
+                    <connections>
+                        <action selector="stopWithSender:" target="hy8-KI-Cjc" id="K9t-Va-ENO"/>
+                        <binding destination="hy8-KI-Cjc" name="enabled" keyPath="running" id="DZs-wO-DwV"/>
+                    </connections>
+                </menuItem>
+                <menuItem title="Restart server" tag="220" id="iFg-gq-cvg">
+                    <modifierMask key="keyEquivalentModifierMask"/>
+                    <connections>
+                        <action selector="restartWithSender:" target="hy8-KI-Cjc" id="Tmb-pj-cD5"/>
+                        <binding destination="hy8-KI-Cjc" name="enabled" keyPath="running" id="rM2-tH-Blc"/>
+                    </connections>
+                </menuItem>
+                <menuItem isSeparatorItem="YES" id="Nra-yD-7fc"/>
+                <menuItem title="Preferences" tag="110" id="gUQ-Zp-kgK">
+                    <modifierMask key="keyEquivalentModifierMask"/>
+                    <connections>
+                        <action selector="showPreferencesWithSender:" target="Voe-Tx-rLC" id="tb3-BI-EJX"/>
+                    </connections>
+                </menuItem>
+                <menuItem isSeparatorItem="YES" id="LxO-3e-g0k"/>
+                <menuItem title="Exit Emacs Launcher" tag="100" id="HlY-wY-qBe">
+                    <modifierMask key="keyEquivalentModifierMask"/>
+                    <connections>
+                        <action selector="exitWithSender:" target="Voe-Tx-rLC" id="Q57-ug-KJN"/>
+                    </connections>
+                </menuItem>
+            </items>
+            <point key="canvasLocation" x="-1241" y="-655.5"/>
         </menu>
         <customObject id="iZo-UE-XKW" customClass="CommandRunner" customModule="Emacs_Launcher" customModuleProvider="target"/>
         <customObject id="4eG-dl-Gp9" customClass="PreferenceController" customModule="Emacs_Launcher" customModuleProvider="target">
@@ -47,7 +84,6 @@
                 <outlet property="client" destination="bCB-uk-zaM" id="WLK-qb-YBQ"/>
                 <outlet property="command" destination="iZo-UE-XKW" id="XyQ-uY-rG7"/>
                 <outlet property="iconController" destination="KA1-OJ-Cqc" id="aPF-NB-Tdz"/>
-                <outlet property="menu" destination="S7g-C4-RRg" id="hw3-9C-3xG"/>
                 <outlet property="preferenceController" destination="4eG-dl-Gp9" id="Zjq-MU-nLt"/>
             </connections>
         </customObject>
@@ -56,5 +92,131 @@
                 <outlet property="app" destination="Voe-Tx-rLC" id="jvR-oW-QP5"/>
             </connections>
         </customObject>
+        <window title="Emacs Launcher Preferences" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" restorable="NO" oneShot="NO" releasedWhenClosed="NO" showsToolbarButton="NO" visibleAtLaunch="NO" animationBehavior="default" id="Rdt-Sr-5pJ">
+            <windowStyleMask key="styleMask" titled="YES" closable="YES"/>
+            <rect key="contentRect" x="764" y="510" width="480" height="165"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="1920" height="1177"/>
+            <view key="contentView" id="nBV-zX-9wc">
+                <rect key="frame" x="0.0" y="0.0" width="480" height="165"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <button toolTip="Start Emacs server after Emacs Launcher starts." fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="HaK-wx-9dY">
+                        <rect key="frame" x="18" y="129" width="444" height="18"/>
+                        <buttonCell key="cell" type="check" title="Start server after launcher starts" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="iwY-J6-kRp">
+                            <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                            <font key="font" metaFont="system"/>
+                        </buttonCell>
+                    </button>
+                    <button toolTip="Stop Emacs server (thus all client instances as well) before Emacs Launcher exits." fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="K4s-l4-ceF">
+                        <rect key="frame" x="18" y="109" width="444" height="18"/>
+                        <buttonCell key="cell" type="check" title="Stop server before launcher exits" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="oiK-nP-ofL">
+                            <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                            <font key="font" metaFont="system"/>
+                        </buttonCell>
+                    </button>
+                    <button toolTip="Create a new frame with after Emacs server is started automatically when Emacs Launcher starts." fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="q7O-SF-eXB">
+                        <rect key="frame" x="18" y="89" width="444" height="18"/>
+                        <buttonCell key="cell" type="check" title="Create new frame after server starts" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="LkE-E2-zkN">
+                            <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                            <font key="font" metaFont="system"/>
+                        </buttonCell>
+                    </button>
+                    <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="oHN-TA-nH6">
+                        <rect key="frame" x="18" y="69" width="444" height="18"/>
+                        <string key="toolTip">Always create a new frame for each drop operation. if multiple files are dropped at once, only one frame will be created. If unchecked, the most recently created frame will be used.</string>
+                        <buttonCell key="cell" type="check" title="Always create new frame for dropped files" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="MDe-YI-BBk">
+                            <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                            <font key="font" metaFont="system"/>
+                        </buttonCell>
+                    </button>
+                </subviews>
+            </view>
+            <toolbar key="toolbar" implicitIdentifier="AA31F793-BB1F-442B-BE24-F8EEA2972415" autosavesConfiguration="NO" allowsUserCustomization="NO" displayMode="iconAndLabel" sizeMode="small" id="SNP-0H-YLr">
+                <allowedToolbarItems>
+                    <toolbarItem implicitItemIdentifier="40216A21-B555-4B55-90E2-808CF9B910B7" label="General" paletteLabel="General" tag="-1" id="Enq-cs-hMW"/>
+                    <toolbarItem implicitItemIdentifier="FEC4CF21-95B3-463E-B5CF-212A605B2375" label="Emacs" paletteLabel="Emacs" tag="-1" id="YEh-kW-E2V"/>
+                </allowedToolbarItems>
+                <defaultToolbarItems>
+                    <toolbarItem reference="Enq-cs-hMW"/>
+                    <toolbarItem reference="YEh-kW-E2V"/>
+                </defaultToolbarItems>
+            </toolbar>
+            <point key="canvasLocation" x="-823" y="-612.5"/>
+        </window>
+        <customView id="Vv2-lF-qcr">
+            <rect key="frame" x="0.0" y="0.0" width="480" height="165"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+            <subviews>
+                <button toolTip="Start Emacs server after Emacs Launcher starts." fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="qdc-Hr-k6V">
+                    <rect key="frame" x="18" y="129" width="444" height="18"/>
+                    <buttonCell key="cell" type="check" title="Start server after launcher starts" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="3To-3a-0Ya">
+                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                        <font key="font" metaFont="system"/>
+                    </buttonCell>
+                </button>
+                <button toolTip="Stop Emacs server (thus all client instances as well) before Emacs Launcher exits." fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="pch-Vf-eHj">
+                    <rect key="frame" x="18" y="109" width="444" height="18"/>
+                    <buttonCell key="cell" type="check" title="Stop server before launcher exits" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="WQm-fd-EQT">
+                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                        <font key="font" metaFont="system"/>
+                    </buttonCell>
+                </button>
+                <button toolTip="Create a new frame with after Emacs server is started automatically when Emacs Launcher starts." fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="85w-Yq-sY5">
+                    <rect key="frame" x="18" y="89" width="444" height="18"/>
+                    <buttonCell key="cell" type="check" title="Create new frame after server starts" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="6Bh-Eo-MPJ">
+                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                        <font key="font" metaFont="system"/>
+                    </buttonCell>
+                </button>
+                <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="7dm-F8-LW2">
+                    <rect key="frame" x="18" y="69" width="444" height="18"/>
+                    <string key="toolTip">Always create a new frame for each drop operation. if multiple files are dropped at once, only one frame will be created. If unchecked, the most recently created frame will be used.</string>
+                    <buttonCell key="cell" type="check" title="Always create new frame for dropped files" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="SsU-b4-Ybn">
+                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                        <font key="font" metaFont="system"/>
+                    </buttonCell>
+                </button>
+            </subviews>
+            <point key="canvasLocation" x="-823" y="-384.5"/>
+        </customView>
+        <customView id="Pta-Lt-Qo9">
+            <rect key="frame" x="0.0" y="0.0" width="480" height="165"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+            <subviews>
+                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="6vf-TN-OrQ">
+                    <rect key="frame" x="18" y="128" width="444" height="17"/>
+                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Emacs Server Location" id="kof-wP-Hr8">
+                        <font key="font" metaFont="system"/>
+                        <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                    </textFieldCell>
+                </textField>
+                <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="cri-ZZ-F25">
+                    <rect key="frame" x="20" y="43" width="440" height="22"/>
+                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" drawsBackground="YES" id="Bh1-x9-YZg">
+                        <font key="font" metaFont="system"/>
+                        <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
+                        <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                    </textFieldCell>
+                </textField>
+                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="hg6-DD-87s">
+                    <rect key="frame" x="18" y="73" width="444" height="17"/>
+                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Emacs Client Location" id="WUH-51-GMO">
+                        <font key="font" metaFont="system"/>
+                        <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                    </textFieldCell>
+                </textField>
+                <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Txh-bg-4vT">
+                    <rect key="frame" x="20" y="98" width="440" height="22"/>
+                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" drawsBackground="YES" id="dyM-Sc-DdL">
+                        <font key="font" metaFont="system"/>
+                        <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
+                        <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                    </textFieldCell>
+                </textField>
+            </subviews>
+            <point key="canvasLocation" x="-823" y="-166.5"/>
+        </customView>
     </objects>
 </document>

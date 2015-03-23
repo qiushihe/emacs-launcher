@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		2806CFFD1AB2406000078EB7 /* LauncherMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2806CFFC1AB2406000078EB7 /* LauncherMenu.swift */; };
 		28642A481AB3D9FA0078050A /* PreferenceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28642A471AB3D9FA0078050A /* PreferenceController.swift */; };
 		28F49AF41AB530C700EFA7B1 /* MenubarIconController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28F49AF31AB530C700EFA7B1 /* MenubarIconController.swift */; };
 		28F9E61C1AB3CAA100D1543F /* CommandRunner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28F9E61B1AB3CAA100D1543F /* CommandRunner.swift */; };
@@ -30,7 +29,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		2806CFFC1AB2406000078EB7 /* LauncherMenu.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LauncherMenu.swift; sourceTree = "<group>"; };
 		28642A471AB3D9FA0078050A /* PreferenceController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PreferenceController.swift; sourceTree = "<group>"; };
 		28F49AF31AB530C700EFA7B1 /* MenubarIconController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenubarIconController.swift; sourceTree = "<group>"; };
 		28F9E61B1AB3CAA100D1543F /* CommandRunner.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommandRunner.swift; sourceTree = "<group>"; };
@@ -86,7 +84,6 @@
 			isa = PBXGroup;
 			children = (
 				CE925B201AB22C6B00657798 /* AppDelegate.swift */,
-				2806CFFC1AB2406000078EB7 /* LauncherMenu.swift */,
 				CE7B97CA1AB2469D00093729 /* ServerController.swift */,
 				28F9E61D1AB3CCE000D1543F /* ClientController.swift */,
 				28F9E61B1AB3CAA100D1543F /* CommandRunner.swift */,
@@ -223,7 +220,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2806CFFD1AB2406000078EB7 /* LauncherMenu.swift in Sources */,
 				28F9E61C1AB3CAA100D1543F /* CommandRunner.swift in Sources */,
 				28642A481AB3D9FA0078050A /* PreferenceController.swift in Sources */,
 				28F9E61E1AB3CCE000D1543F /* ClientController.swift in Sources */,

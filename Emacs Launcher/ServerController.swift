@@ -12,7 +12,6 @@ public class ServerController : NSObject {
     @IBOutlet weak var preferenceController: PreferenceController!;
     @IBOutlet weak var command: CommandRunner!;
     @IBOutlet weak var client: ClientController!;
-    @IBOutlet weak var menu: LauncherMenu!;
     @IBOutlet weak var iconController: MenubarIconController!;
     
     var running = false;
@@ -26,7 +25,7 @@ public class ServerController : NSObject {
         return pid;
     }
     
-    public func start () {
+    @IBAction public func start (sender: NSObject? = nil) {
         pid = checkPid();
         if (pid > 0) {
             NSLog("Emacs server is already running. PID: " + String(pid));
@@ -48,11 +47,9 @@ public class ServerController : NSObject {
             }
             iconController.normal();
         }
-        
-        menu.updateMenu();
     }
     
-    public func stop () {
+    @IBAction public func stop (sender: NSObject? = nil) {
         client.eval("(kill-emacs)");
         pid = checkPid();
         if (pid <= 0) {
@@ -69,11 +66,9 @@ public class ServerController : NSObject {
                 running = true;
             }
         }
-        
-        menu.updateMenu();
     }
     
-    public func restart () {
+    @IBAction public func restart (sender: NSObject? = nil) {
         stop();
         start();
     }
