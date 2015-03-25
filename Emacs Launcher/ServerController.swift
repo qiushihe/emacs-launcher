@@ -8,7 +8,7 @@
 
 import Foundation
 
-public class ServerController : NSObject {
+class ServerController : NSObject {
     @IBOutlet weak var preferenceController: PreferenceController!;
     @IBOutlet weak var command: CommandRunner!;
     @IBOutlet weak var client: ClientController!;
@@ -16,19 +16,19 @@ public class ServerController : NSObject {
     var running = false;
     var pid = 0;
     
-    public func isRunning () -> Bool {
+    func isRunning () -> Bool {
         return running;
     }
     
-    public func getPid () -> Int {
+    func getPid () -> Int {
         return pid;
     }
     
-    @IBAction public func start (sender: NSObject) {
+    @IBAction func start (sender: NSObject) {
         start();
     }
     
-    public func start () -> Promise {
+    func start () -> Promise {
         return checkPid().then({ (value: Value) -> Value in
             self.pid = value as Int;
             if (self.pid > 0) {
@@ -57,11 +57,11 @@ public class ServerController : NSObject {
         });
     }
     
-    @IBAction public func stop (sender: NSObject) {
+    @IBAction func stop (sender: NSObject) {
         stop();
     }
     
-    public func stop () -> Promise {
+    func stop () -> Promise {
         return client.eval("(kill-emacs)").then({ (value: Value) -> Value in
             return self.checkPid();
         }).then({ (value: Value) -> Value in
@@ -88,11 +88,11 @@ public class ServerController : NSObject {
         });
     }
     
-    @IBAction public func restart (sender: NSObject) {
+    @IBAction func restart (sender: NSObject) {
         restart();
     }
     
-    public func restart () -> Promise {
+    func restart () -> Promise {
         return stop().then({ (value: Value) -> Value in
             return self.start();
         });

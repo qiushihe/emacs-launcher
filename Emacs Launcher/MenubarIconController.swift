@@ -8,17 +8,17 @@
 
 import Cocoa
 
-public class MenubarIconController : NSObject {
+class MenubarIconController : NSObject {
     @IBOutlet weak var app: AppDelegate!;
 
     let menubarIcon = NSImage(named: "Menubar Icon");
     let menubarIconLoading = NSImage(named: "Menubar Icon - Loading");
     
     func normal () {
-        app.statusItem.image = menubarIcon;
+        app.statusItemView.image = menubarIcon;
     }
     
     func loading () {
-        app.statusItem.image = menubarIconLoading;
+        app.statusItemView.image = menubarIconLoading;
     }
 }

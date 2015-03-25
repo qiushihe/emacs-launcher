@@ -9,7 +9,7 @@
 import Cocoa
 
 @NSApplicationMain
-public class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate {
+class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate {
     @IBOutlet weak var iconController: MenubarIconController!;
     @IBOutlet weak var preferenceController: PreferenceController!;
     @IBOutlet weak var server: ServerController!;
@@ -19,15 +19,14 @@ public class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate {
     
     var preferences: Dictionary<String, String>!;
     var statusItem: NSStatusItem!;
+    var statusItemView: StatusItemView!;
     
-    public func applicationDidFinishLaunching (aNotification: NSNotification) {
-        // TODO: Replace -1 with NSVariableStatusItemLength after Swift fixes its bug
-        statusItem = NSStatusBar.systemStatusBar().statusItemWithLength(-1);
-        statusItem.menu = menubarMenu;
-        
-        // TODO: Change to for 10.9
-        statusItem.button?.window?.registerForDraggedTypes([NSFilenamesPboardType]);
-        statusItem.button?.window?.delegate = self;
+    func applicationDidFinishLaunching (aNotification: NSNotification) {
+        // TODO: Replace -2 with NSSquareStatusItemLength after Swift fixes its bug
+        statusItem = NSStatusBar.systemStatusBar().statusItemWithLength(-2);
+        statusItemView = StatusItemView(statusItem: statusItem);
+        statusItemView.client = client;
+        statusItemView.set(menu: menubarMenu);
         
         iconController.normal();
         
@@ -40,15 +39,15 @@ public class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate {
         });
     }
     
-    public func application(sender: NSApplication, openFiles filenames: [AnyObject]) {
+    func application(sender: NSApplication, openFiles filenames: [AnyObject]) {
         client.openFiles(filenames as Array<String>);
     }
     
-    @IBAction public func exit (sender: NSObject) {
+    @IBAction func exit (sender: NSObject) {
         exit();
     }
 
-    public func exit () {
+    func exit () {
         // TODO: Make stopping server on exit optional
         server.stop().then({ (value: Value) -> Value in
             NSApplication.sharedApplication().terminate(self);
@@ -56,38 +55,12 @@ public class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate {
         });
     }
     
-    @IBAction public func showPreferences (sender: NSObject) {
+    @IBAction func showPreferences (sender: NSObject) {
         showPreferences();
     }
     
-    public func showPreferences () {
+    func showPreferences () {
         preferencesWindow.makeKeyAndOrderFront(self);
         NSApp.activateIgnoringOtherApps(true);
-    }
-    
-    func draggingEntered (sender: NSDraggingInfo) -> NSDragOperation {
-        return NSDragOperation.Link;
-    }
-    
-    func prepareForDragOperation (sender: NSDraggingInfo) -> Bool {
-        return true;
-    }
-    
-    func draggingEnded(sender: NSDraggingInfo?) {
-        let location = sender?.draggingLocation();
-        let frame = statusItem.button?.frame;
-        
-        // Work around a DnD bug: http://stackoverflow.com/a/10825816
-        if (location != nil && frame != nil && NSPointInRect(location!, frame!)) {
-            performDragOperation(sender!);
-        }
-    }
-    
-    func performDragOperation (sender: NSDraggingInfo) -> Bool {
-        let pboard = sender.draggingPasteboard();
-        let files = pboard.propertyListForType(NSFilenamesPboardType) as Array<String>;
-        
-        client.openFiles(files);
-        return true;
     }
 }

@@ -8,7 +8,7 @@
 
 import Foundation
 
-public class PreferenceController : NSObject {
+class PreferenceController : NSObject {
     @IBOutlet weak var command: CommandRunner!;
     
     var preferences: Dictionary<String, String>!;

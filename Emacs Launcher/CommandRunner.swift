@@ -8,12 +8,12 @@
 
 import Foundation
 
-public class CommandRunner : NSObject {
+class CommandRunner : NSObject {
     @IBOutlet weak var iconController: MenubarIconController!;
     
     var busy = false;
     
-    public func run (cmd: String, args: Array<String>) -> Promise {
+    func run (cmd: String, args: Array<String>) -> Promise {
         NSLog("Running: " + cmd + " " + " ".join(args));
         
         let pipe = NSPipe();
