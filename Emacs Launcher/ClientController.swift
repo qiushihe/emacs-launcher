@@ -13,7 +13,8 @@ class ClientController : NSObject {
     @IBOutlet weak var command: CommandRunner!;
 
     func launchClient () -> Promise {
-        return command.run(preferenceController.read("clientPath"), args: ["-n", "-c", "-e", launchClientCommand()]);
+        // TODO: Make maximizing frame on launch optional
+        return command.run(preferenceController.read("clientPath"), args: ["-n", "-c", "-e", launchClientCommand(maximizeFrame: false)]);
     }
     
     func openFiles (paths: Array<String>) -> Promise {
@@ -36,10 +37,11 @@ class ClientController : NSObject {
         return command.run(preferenceController.read("clientPath"), args: ["-e", expression]);
     }
     
-    func launchClientCommand () -> String {
-        let defaultDir = preferenceController.read("defaultDirectory")
-        return "".join([
-            "(progn",
+    func launchClientCommand (#maximizeFrame: Bool) -> String {
+        let defaultDir = preferenceController.read("defaultDirectory");
+        var commands = ["(progn"];
+        
+        commands += [
             // Switch to the "*scratch*" buffer so we're not looking at some random buffers each time
             "  (switch-to-buffer \"*scratch*\")",
             
@@ -49,14 +51,21 @@ class ClientController : NSObject {
             // Create and set a frame-local variable to mark the working directory of the frame
             "  (make-variable-frame-local 'working-directory)",
             "  (modify-frame-parameters nil '((working-directory . \"" + defaultDir + "\")))",
-            "  (cd working-directory)",
-            
-            // Maximize the frame and move it to top-left position
-            //"  (set-frame-parameter nil 'fullscreen 'maximized)",
-            //"  (set-frame-parameter nil 'top 0)",
-            //"  (set-frame-parameter nil 'left 0)",
-            ")"
-        ]);
+            "  (cd working-directory)"
+        ];
+        
+        if (maximizeFrame) {
+            commands += [
+                // Maximize the frame and move it to top-left position
+                "  (set-frame-parameter nil 'fullscreen 'maximized)",
+                "  (set-frame-parameter nil 'top 0)",
+                "  (set-frame-parameter nil 'left 0)"
+            ];
+        }
+        
+        commands += [")"];
+        
+        return "".join(commands);
     }
     
     func openFileCommand (path: String, inNewFrame: Bool) -> String {
