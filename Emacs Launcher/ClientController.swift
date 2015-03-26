@@ -16,16 +16,20 @@ class ClientController : NSObject {
         return command.run(preferenceController.read("clientPath"), args: ["-n", "-c", "-e", launchClientCommand()]);
     }
     
-    func openFiles (paths: Array<String>) {
+    func openFiles (paths: Array<String>) -> Promise {
+        var promises = Array<Promise>();
+        
         // Reverse the opening order so the first file is the last to be opened and thus
         // is the one the user is looking at in the end
         for path in paths.reverse() {
-            openFile(path);
+            promises.append(command.run(preferenceController.read("clientPath"), args: ["-n", "-e", openFileCommand(path, inNewFrame: false)]));
         }
+        
+        return Craft.all(promises);
     }
     
-    func openFile (path: String) -> Promise {
-        return command.run(preferenceController.read("clientPath"), args: ["-n", "-e", openFileCommand(path)]);
+    func openFolder (path: String) -> Promise {
+        return command.run(preferenceController.read("clientPath"), args: ["-n", "-e", openFileCommand(path, inNewFrame: true)]);
     }
     
     func eval (expression: String) -> Promise {
@@ -55,23 +59,31 @@ class ClientController : NSObject {
         ]);
     }
     
-    func openFileCommand (path: String) -> String {
+    func openFileCommand (path: String, inNewFrame: Bool) -> String {
         return ensureFrameCommand("a-frame", body: "".join([
             "(progn",
             "  (select-frame-set-input-focus a-frame)",
             "  (find-file \"" + path + "\")",
             ")"
-        ]));
+        ]), alwaysNew: inNewFrame);
     }
     
-    func ensureFrameCommand (varName: String, body: String) -> String {
-        return "".join([
-            "(let (",
-            "  (" + varName + " (if (>= 1 (list-length (frame-list)))",
-            "    (make-frame '((window-system . ns)))",
-            "    (nth 0 (frame-list))",
-            "  ))",
-            ") " + body + ")"
-        ]);
+    func ensureFrameCommand (varName: String, body: String, alwaysNew: Bool) -> String {
+        if (alwaysNew) {
+            return "".join([
+                "(let (",
+                "  (" + varName + " (make-frame '((window-system . ns))))",
+                ") " + body + ")"
+            ]);
+        } else {
+            return "".join([
+                "(let (",
+                "  (" + varName + " (if (>= 1 (list-length (frame-list)))",
+                "    (make-frame '((window-system . ns)))",
+                "    (nth 0 (frame-list))",
+                "  ))",
+                ") " + body + ")"
+            ]);
+        }
     }
 }

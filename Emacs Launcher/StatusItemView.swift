@@ -13,7 +13,7 @@ import Cocoa
 //       statusItem.button?.window?.delegate = self;
 
 class StatusItemView : NSView, NSMenuDelegate {
-    var client: ClientController!;
+    var app: AppDelegate!;
     var statusItem: NSStatusItem!;
     var highlighted = false;
     
@@ -100,44 +100,10 @@ class StatusItemView : NSView, NSMenuDelegate {
     override func performDragOperation (sender: NSDraggingInfo) -> Bool {
         if (validDrops[sender.draggingSequenceNumber()] != nil) {
             let pboard = sender.draggingPasteboard();
-            let files = pboard.propertyListForType(NSFilenamesPboardType) as Array<String>;
-            
-            // We can't use on prepareForDragOperation to filter acceptable dragged objects because
-            // when dragging from a Stack in the dock into the NSStatusItem's view, the
-            // prepareForDragOperation is never called. So We just have to do the filter right here
-            // right before we pass the paths to Emacs client. Acceptable drops are either a single
-            // directory, or any number of files.
-            
-            var filesCount = 0;
-            var directoriesCount = 0;
-            
-            for path in files {
-                if (isPathDirectory(path)) {
-                    directoriesCount++;
-                } else {
-                    filesCount++;
-                }
-            }
-            
-            if (directoriesCount <= 0 && filesCount > 0) {
-                client.openFiles(files);
-            } else if (directoriesCount == 1 && filesCount <= 0) {
-                // TODO: Implement opening new frame with folder
-            } else {
-                // TODO: Show error popup with message for invalid drops
-            }
-            
+            app.openFiles(pboard.propertyListForType(NSFilenamesPboardType) as Array<String>);
             validDrops.removeValueForKey(sender.draggingSequenceNumber());
         }
 
         return true;
-    }
-    
-    func isPathDirectory (path: String) -> Bool {
-        var isDirectory: ObjCBool = ObjCBool(false);
-        if NSFileManager.defaultManager().fileExistsAtPath(path, isDirectory: &isDirectory) {
-            println(isDirectory)
-        }
-        return Bool(isDirectory);
     }
 }
