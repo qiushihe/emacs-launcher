@@ -14,10 +14,8 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate {
     @IBOutlet weak var preferenceController: PreferenceController!;
     @IBOutlet weak var server: ServerController!;
     @IBOutlet weak var client: ClientController!;
-    @IBOutlet weak var preferencesWindow: NSWindow!;
     @IBOutlet weak var menubarMenu: NSMenu!;
     
-    var preferences: Dictionary<String, String>!;
     var statusItem: NSStatusItem!;
     var statusItemView: StatusItemView!;
     
@@ -30,13 +28,15 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate {
         
         iconController.normal();
         
-        preferenceController.loadPreferences().then({ (value: Value) -> Value in
-            // TODO: Make starting server on startup optional
-            return self.server.start();
-        }).then({ (value: Value) -> Value in
-            // TODO: Make launching client on startup optional
-            return self.client.launchClient();
-        });
+        if (preferenceController.readBool("startServerAfterLaunch")) {
+            server.start().then({ (value: Value) -> Value in
+                if (self.preferenceController.readBool("createNewFrameAfterLaunch")) {
+                    return self.client.launchClient();
+                } else {
+                    return nil;
+                }
+            });
+        }
     }
     
     func application(sender: NSApplication, openFiles filenames: [AnyObject]) {
@@ -48,20 +48,18 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate {
     }
 
     func exit () {
-        // TODO: Make stopping server on exit optional
-        server.stop().then({ (value: Value) -> Value in
+        if (preferenceController.readBool("stopServerBeforeExit")) {
+            server.stop().then({ (value: Value) -> Value in
+                NSApplication.sharedApplication().terminate(self);
+                return nil;
+            });
+        } else {
             NSApplication.sharedApplication().terminate(self);
-            return nil;
-        });
+        }
     }
     
     @IBAction func showPreferences (sender: NSObject) {
-        showPreferences();
-    }
-    
-    func showPreferences () {
-        preferencesWindow.makeKeyAndOrderFront(self);
-        NSApp.activateIgnoringOtherApps(true);
+        preferenceController.showWindow();
     }
     
     func openFiles (files: Array<String>) {

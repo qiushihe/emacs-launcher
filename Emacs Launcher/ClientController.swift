@@ -23,14 +23,16 @@ class ClientController : NSObject {
         // Reverse the opening order so the first file is the last to be opened and thus
         // is the one the user is looking at in the end
         for path in paths.reverse() {
-            promises.append(command.run(preferenceController.read("clientPath"), args: ["-n", "-e", openFileCommand(path, inNewFrame: false)]));
+            promises.append(command.run(preferenceController.read("clientPath"), args: ["-n", "-e",
+                openFileCommand(path, inNewFrame: preferenceController.readBool("alwaysCreateNewFrameForDroppedFiles"), forFolder: false)
+            ]));
         }
         
         return Craft.all(promises);
     }
     
     func openFolder (path: String) -> Promise {
-        return command.run(preferenceController.read("clientPath"), args: ["-n", "-e", openFileCommand(path, inNewFrame: true)]);
+        return command.run(preferenceController.read("clientPath"), args: ["-n", "-e", openFileCommand(path, inNewFrame: true, forFolder: true)]);
     }
     
     func eval (expression: String) -> Promise {
@@ -42,55 +44,66 @@ class ClientController : NSObject {
         var commands = ["(progn"];
         
         commands += [
-            // Switch to the "*scratch*" buffer so we're not looking at some random buffers each time
-            "  (switch-to-buffer \"*scratch*\")",
-            
-            // Ensure the newly created frame has focus.
-            "  (select-frame-set-input-focus (selected-frame))",
-            
-            // Create and set a frame-local variable to mark the working directory of the frame
-            "  (make-variable-frame-local 'working-directory)",
-            "  (modify-frame-parameters nil '((working-directory . \"" + defaultDir + "\")))",
-            "  (cd working-directory)"
+            "(switch-to-buffer \"*scratch*\")",
+            "(select-frame-set-input-focus (selected-frame))",
+            setFrameWorkingDirectoryCommand(defaultDir)
         ];
         
         if (maximizeFrame) {
             commands += [
-                // Maximize the frame and move it to top-left position
-                "  (set-frame-parameter nil 'fullscreen 'maximized)",
-                "  (set-frame-parameter nil 'top 0)",
-                "  (set-frame-parameter nil 'left 0)"
+                "(set-frame-parameter nil 'fullscreen 'maximized)",
+                "(set-frame-parameter nil 'top 0)",
+                "(set-frame-parameter nil 'left 0)"
             ];
         }
         
         commands += [")"];
         
-        return "".join(commands);
+        return " ".join(commands);
     }
     
-    func openFileCommand (path: String, inNewFrame: Bool) -> String {
-        return ensureFrameCommand("a-frame", body: "".join([
+    func openFileCommand (path: String, inNewFrame: Bool, forFolder: Bool) -> String {
+        var commands = [
             "(progn",
-            "  (select-frame-set-input-focus a-frame)",
-            "  (find-file \"" + path + "\")",
+            "(select-frame-set-input-focus a-frame)"
+        ];
+        
+        if (forFolder) {
+            commands += [setFrameWorkingDirectoryCommand(path)];
+        }
+        
+        commands += [
+            "(find-file \"" + path + "\")",
             ")"
-        ]), alwaysNew: inNewFrame);
+        ];
+        
+        return ensureFrameCommand("a-frame", body: " ".join(commands), alwaysNew: inNewFrame);
+    }
+    
+    func setFrameWorkingDirectoryCommand (path: String) -> String {
+        return " ".join([
+            "(progn",
+            "(make-variable-frame-local 'working-directory)",
+            "(modify-frame-parameters nil '((working-directory . \"" + path + "\")))",
+            "(cd working-directory)",
+            ")"
+        ]);
     }
     
     func ensureFrameCommand (varName: String, body: String, alwaysNew: Bool) -> String {
         if (alwaysNew) {
-            return "".join([
+            return " ".join([
                 "(let (",
-                "  (" + varName + " (make-frame '((window-system . ns))))",
+                "(" + varName + " (make-frame '((window-system . ns))))",
                 ") " + body + ")"
             ]);
         } else {
-            return "".join([
+            return " ".join([
                 "(let (",
-                "  (" + varName + " (if (>= 1 (list-length (frame-list)))",
-                "    (make-frame '((window-system . ns)))",
-                "    (nth 0 (frame-list))",
-                "  ))",
+                "(" + varName + " (if (>= 1 (list-length (frame-list)))",
+                "(make-frame '((window-system . ns)))",
+                "(nth 0 (frame-list))",
+                "))",
                 ") " + body + ")"
             ]);
         }
