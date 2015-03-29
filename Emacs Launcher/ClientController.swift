@@ -13,8 +13,9 @@ class ClientController : NSObject {
     @IBOutlet weak var command: CommandRunner!;
 
     func launchClient () -> Promise {
-        // TODO: Make maximizing frame on launch optional
-        return command.run(preferenceController.read("clientPath"), args: ["-n", "-c", "-e", launchClientCommand(maximizeFrame: false)]);
+        return command.run(preferenceController.read("clientPath"), args: [
+            "-n", "-c", "-e", launchClientCommand(maximizeFrame: false)
+        ]);
     }
     
     func openFiles (paths: Array<String>) -> Promise {
@@ -23,8 +24,11 @@ class ClientController : NSObject {
         // Reverse the opening order so the first file is the last to be opened and thus
         // is the one the user is looking at in the end
         for path in paths.reverse() {
-            promises.append(command.run(preferenceController.read("clientPath"), args: ["-n", "-e",
-                openFileCommand(path, inNewFrame: preferenceController.readBool("alwaysCreateNewFrameForDroppedFiles"), forFolder: false)
+            promises.append(command.run(preferenceController.read("clientPath"), args: [
+                "-n", "-e",
+                openFileCommand(path,
+                    inNewFrame: preferenceController.readBool("alwaysCreateNewFrameForDroppedFiles"),
+                    forFolder: false)
             ]));
         }
         
@@ -32,11 +36,16 @@ class ClientController : NSObject {
     }
     
     func openFolder (path: String) -> Promise {
-        return command.run(preferenceController.read("clientPath"), args: ["-n", "-e", openFileCommand(path, inNewFrame: true, forFolder: true)]);
+        return command.run(preferenceController.read("clientPath"), args: [
+            "-n", "-e",
+            openFileCommand(path, inNewFrame: true, forFolder: true)
+        ]);
     }
     
     func eval (expression: String) -> Promise {
-        return command.run(preferenceController.read("clientPath"), args: ["-e", expression]);
+        return command.run(preferenceController.read("clientPath"), args: [
+            "-e", expression
+        ]);
     }
     
     func launchClientCommand (#maximizeFrame: Bool) -> String {

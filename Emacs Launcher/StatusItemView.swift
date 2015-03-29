@@ -58,7 +58,9 @@ class StatusItemView : NSView, NSMenuDelegate {
             var iconX = CGFloat(roundf(Float((NSWidth(bounds) - iconSize.width) / 2)));
             var iconY = CGFloat(roundf(Float((NSHeight(bounds) - iconSize.height) / 2)));
             var iconPoint = NSMakePoint(iconX, iconY);
-            icon?.drawAtPoint(iconPoint, fromRect: bounds, operation: NSCompositingOperation.CompositeSourceOver, fraction: 1.0);
+            icon?.drawAtPoint(iconPoint, fromRect: bounds,
+                operation: NSCompositingOperation.CompositeSourceOver,
+                fraction: 1.0);
         }
     }
     

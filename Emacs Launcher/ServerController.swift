@@ -38,7 +38,10 @@ class ServerController : NSObject {
             } else {
                 // Start Emacs daemon with a bash login shell in order for the daemon process to have
                 // access to all $PATH.
-                return self.command.run("/bin/bash", args: ["-l", "-c", self.preferenceController.read("serverPath") + " --daemon"]).then({ (value: Value) -> Value in
+                return self.command.run("/bin/bash", args: [
+                    "-l", "-c",
+                    self.preferenceController.read("serverPath") + " --daemon"
+                ]).then({ (value: Value) -> Value in
                     // TODO: Pipe the output to system console
                     return self.checkPid();
                 }).then({ (value: Value) -> Value in
@@ -71,7 +74,10 @@ class ServerController : NSObject {
                 self.running = false;
                 return nil;
             } else {
-                return self.command.run("/bin/kill", args: ["-KILL", String(self.pid)]).then({ (value: Value) -> Value in
+                return self.command.run("/bin/kill", args: [
+                    "-KILL",
+                    String(self.pid)
+                ]).then({ (value: Value) -> Value in
                     return self.checkPid();
                 }).then({ (value: Value) -> Value in
                     self.pid = value as Int;
