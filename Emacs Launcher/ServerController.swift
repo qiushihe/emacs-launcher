@@ -6,9 +6,10 @@
 //  Copyright (c) 2015 Billy He. All rights reserved.
 //
 
-import Foundation
+import Cocoa
 
 class ServerController : NSObject {
+    @IBOutlet weak var statusMenuItem: NSMenuItem!;
     @IBOutlet weak var iconController: MenubarIconController!;
     @IBOutlet weak var preferenceController: PreferenceController!;
     @IBOutlet weak var command: CommandRunner!;
@@ -30,7 +31,9 @@ class ServerController : NSObject {
     }
     
     func start () -> Promise {
+        self.statusMenuItem.title = "Server Starting";
         self.iconController.working();
+        
         return checkPid().then({ (value: Value) -> Value in
             self.pid = value as Int;
             if (self.pid > 0) {
@@ -61,6 +64,7 @@ class ServerController : NSObject {
                 });
             }
         }).then({ (value: Value) -> Value in
+            self.statusMenuItem.title = "Server PID: " + String(self.pid);
             self.iconController.ready();
             return nil;
         });
@@ -71,7 +75,9 @@ class ServerController : NSObject {
     }
     
     func stop () -> Promise {
+        self.statusMenuItem.title = "Server Stopping";
         self.iconController.working();
+        
         return client.eval("(kill-emacs)").then({ (value: Value) -> Value in
             return self.checkPid();
         }).then({ (value: Value) -> Value in
@@ -100,6 +106,7 @@ class ServerController : NSObject {
                 });
             }
         }).then({ (value: Value) -> Value in
+            self.statusMenuItem.title = "Server Not Running";
             self.iconController.normal();
             return nil;
         });
