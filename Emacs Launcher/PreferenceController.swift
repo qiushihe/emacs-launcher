@@ -68,6 +68,20 @@ class PreferenceController : NSObject, NSWindowDelegate {
         set (value) { setBool("alwaysMaximizeNewFolderFrames", value: value); }
     }
     
+    var defaultDirectory: String {
+        get { return read("defaultDirectory"); }
+        set (value) { set("defaultDirectory", value: value); }
+    }
+    
+    var serverPath: String {
+        get { return read("serverPath"); }
+        set (value) { set("serverPath", value: value); }
+    }
+    var clientPath: String {
+        get { return read("clientPath"); }
+        set (value) { set("clientPath", value: value); }
+    }
+    
     func readBool (key: String) -> Bool {
         let value = preferences[key];
         return value != nil && value! == "t";
@@ -80,6 +94,11 @@ class PreferenceController : NSObject, NSWindowDelegate {
     
     func read (key: String) -> String {
         return preferences[key]!;
+    }
+    
+    func set (key: String, value: String) {
+        preferences[key] = value;
+        savePreferences();
     }
     
     func savePreferences () {

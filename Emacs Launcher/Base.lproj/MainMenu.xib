@@ -141,11 +141,10 @@
                         <tabViewItems>
                             <tabViewItem label="General" identifier="1" id="loQ-a4-02k">
                                 <view key="view" id="6dY-dh-lCR">
-                                    <rect key="frame" x="10" y="33" width="434" height="178"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="yeR-oh-wwg">
-                                            <rect key="frame" x="15" y="159" width="404" height="18"/>
+                                            <rect key="frame" x="15" y="-19" width="404" height="18"/>
                                             <buttonCell key="cell" type="check" title="Start Emacs daemon after Emacs Launcher starts" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="kZd-Yu-nWW">
                                                 <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                                 <font key="font" metaFont="system"/>
@@ -155,7 +154,7 @@
                                             </connections>
                                         </button>
                                         <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="HsG-5h-TKE">
-                                            <rect key="frame" x="15" y="139" width="404" height="18"/>
+                                            <rect key="frame" x="15" y="-39" width="404" height="18"/>
                                             <buttonCell key="cell" type="check" title="Stop Emacs daemon before Emacs Launcher exits" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="yK8-WK-EOo">
                                                 <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                                 <font key="font" metaFont="system"/>
@@ -165,7 +164,7 @@
                                             </connections>
                                         </button>
                                         <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="uJh-G9-0Hg">
-                                            <rect key="frame" x="15" y="119" width="404" height="18"/>
+                                            <rect key="frame" x="15" y="-59" width="404" height="18"/>
                                             <buttonCell key="cell" type="check" title="Create a new frame after Emacs Launcher starts" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="9r4-vm-Xg5">
                                                 <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                                 <font key="font" metaFont="system"/>
@@ -176,7 +175,7 @@
                                             </connections>
                                         </button>
                                         <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="3HA-F2-FQa">
-                                            <rect key="frame" x="15" y="99" width="404" height="18"/>
+                                            <rect key="frame" x="15" y="-79" width="404" height="18"/>
                                             <buttonCell key="cell" type="check" title="Always create new frame for dropped files only" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="1yk-Id-Lf2">
                                                 <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                                 <font key="font" metaFont="system"/>
@@ -186,7 +185,7 @@
                                             </connections>
                                         </button>
                                         <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Pa2-5P-QuE">
-                                            <rect key="frame" x="15" y="79" width="404" height="18"/>
+                                            <rect key="frame" x="15" y="-99" width="404" height="18"/>
                                             <buttonCell key="cell" type="check" title="Always maximize new frames for files" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="VsT-kp-R9c">
                                                 <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                                 <font key="font" metaFont="system"/>
@@ -196,7 +195,7 @@
                                             </connections>
                                         </button>
                                         <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="kvD-Gi-0VW">
-                                            <rect key="frame" x="15" y="59" width="404" height="18"/>
+                                            <rect key="frame" x="15" y="-119" width="404" height="18"/>
                                             <buttonCell key="cell" type="check" title="Always maximize new frames for folders" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="0TN-Iq-6gp">
                                                 <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                                 <font key="font" metaFont="system"/>
@@ -228,6 +227,9 @@
                                                 <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
                                                 <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                             </textFieldCell>
+                                            <connections>
+                                                <binding destination="4eG-dl-Gp9" name="value" keyPath="serverPath" id="ptz-F1-q2O"/>
+                                            </connections>
                                         </textField>
                                         <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="m6I-WT-PeW">
                                             <rect key="frame" x="15" y="103" width="404" height="17"/>
@@ -244,6 +246,9 @@
                                                 <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
                                                 <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                             </textFieldCell>
+                                            <connections>
+                                                <binding destination="4eG-dl-Gp9" name="value" keyPath="clientPath" id="tgI-Eo-PW8"/>
+                                            </connections>
                                         </textField>
                                         <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="p91-Rn-468">
                                             <rect key="frame" x="17" y="18" width="400" height="22"/>
@@ -252,6 +257,9 @@
                                                 <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
                                                 <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                             </textFieldCell>
+                                            <connections>
+                                                <binding destination="4eG-dl-Gp9" name="value" keyPath="defaultDirectory" id="4L8-ym-3dH"/>
+                                            </connections>
                                         </textField>
                                         <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="6gP-dz-GzM">
                                             <rect key="frame" x="15" y="48" width="404" height="17"/>
