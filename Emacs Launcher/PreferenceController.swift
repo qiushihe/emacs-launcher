@@ -27,6 +27,7 @@ class PreferenceController : NSObject, NSWindowDelegate {
         ensurePreferenceDefault("startServerAfterLaunch", defaultValue: "t");
         ensurePreferenceDefault("stopServerBeforeExit", defaultValue: "t");
         ensurePreferenceDefault("createNewFrameAfterLaunch", defaultValue: "t");
+        ensurePreferenceDefault("maximizeNewFrameAfterLaunch", defaultValue: "t");
         ensurePreferenceDefault("alwaysCreateNewFrameForDroppedFiles", defaultValue: "f");
         ensurePreferenceDefault("alwaysMaximizeNewFilesFrames", defaultValue: "f");
         ensurePreferenceDefault("alwaysMaximizeNewFolderFrames", defaultValue: "f");
@@ -51,6 +52,11 @@ class PreferenceController : NSObject, NSWindowDelegate {
     var createNewFrameAfterLaunch: Bool {
         get { return readBool("createNewFrameAfterLaunch"); }
         set (value) { setBool("createNewFrameAfterLaunch", value: value); }
+    }
+    
+    var maximizeNewFrameAfterLaunch: Bool {
+        get { return readBool("maximizeNewFrameAfterLaunch"); }
+        set (value) { setBool("maximizeNewFrameAfterLaunch", value: value); }
     }
     
     var alwaysCreateNewFrameForDroppedFiles: Bool {

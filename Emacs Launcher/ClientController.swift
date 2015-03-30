@@ -14,7 +14,8 @@ class ClientController : NSObject {
 
     func launchClient () -> Promise {
         return command.run(preferenceController.read("clientPath"), args: [
-            "-n", "-c", "-e", launchClientCommand(maximizeFrame: false)
+            "-n", "-c", "-e",
+            launchClientCommand(maximizeFrame: preferenceController.readBool("maximizeNewFrameAfterLaunch"))
         ]);
     }
     
@@ -28,7 +29,8 @@ class ClientController : NSObject {
                 "-n", "-e",
                 openFileCommand(path,
                     inNewFrame: preferenceController.readBool("alwaysCreateNewFrameForDroppedFiles"),
-                    forFolder: false)
+                    forFolder: false,
+                    maximizeFrame: preferenceController.readBool("alwaysMaximizeNewFilesFrames"))
             ]));
         }
         
@@ -38,7 +40,10 @@ class ClientController : NSObject {
     func openFolder (path: String) -> Promise {
         return command.run(preferenceController.read("clientPath"), args: [
             "-n", "-e",
-            openFileCommand(path, inNewFrame: true, forFolder: true)
+            openFileCommand(path,
+                inNewFrame: true,
+                forFolder: true,
+                maximizeFrame: preferenceController.readBool("alwaysMaximizeNewFolderFrames"))
         ]);
     }
     
@@ -59,11 +64,7 @@ class ClientController : NSObject {
         ];
         
         if (maximizeFrame) {
-            commands += [
-                "(set-frame-parameter nil 'fullscreen 'maximized)",
-                "(set-frame-parameter nil 'top 0)",
-                "(set-frame-parameter nil 'left 0)"
-            ];
+            commands += [maximizeFrameCommand()];
         }
         
         commands += [")"];
@@ -71,7 +72,7 @@ class ClientController : NSObject {
         return " ".join(commands);
     }
     
-    func openFileCommand (path: String, inNewFrame: Bool, forFolder: Bool) -> String {
+    func openFileCommand (path: String, inNewFrame: Bool, forFolder: Bool, maximizeFrame: Bool) -> String {
         var commands = [
             "(progn",
             "(select-frame-set-input-focus a-frame)"
@@ -79,6 +80,10 @@ class ClientController : NSObject {
         
         if (forFolder) {
             commands += [setFrameWorkingDirectoryCommand(path)];
+        }
+        
+        if (inNewFrame && maximizeFrame) {
+            commands += [maximizeFrameCommand()];
         }
         
         commands += [
@@ -116,5 +121,15 @@ class ClientController : NSObject {
                 ") " + body + ")"
             ]);
         }
+    }
+    
+    func maximizeFrameCommand () -> String {
+        return " ".join([
+            "(progn",
+            "(set-frame-parameter nil 'fullscreen 'maximized)",
+            "(set-frame-parameter nil 'top 0)",
+            "(set-frame-parameter nil 'left 0)",
+            ")"
+        ]);
     }
 }
