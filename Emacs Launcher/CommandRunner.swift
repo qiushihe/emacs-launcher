@@ -9,8 +9,6 @@
 import Foundation
 
 class CommandRunner : NSObject {
-    @IBOutlet weak var iconController: MenubarIconController!;
-    
     var busy = false;
     
     func run (cmd: String, args: Array<String>) -> Promise {
@@ -22,7 +20,6 @@ class CommandRunner : NSObject {
         task.standardOutput = pipe;
         task.standardError = pipe;
         
-        iconController.loading();
         busy = true;
         
         return Craft.promise({
@@ -39,8 +36,7 @@ class CommandRunner : NSObject {
                 }
                 
                 self.busy = false;
-                self.iconController.normal();
-
+                
                 resolve(value: output!);
             }
             

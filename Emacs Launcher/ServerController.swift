@@ -9,6 +9,7 @@
 import Foundation
 
 class ServerController : NSObject {
+    @IBOutlet weak var iconController: MenubarIconController!;
     @IBOutlet weak var preferenceController: PreferenceController!;
     @IBOutlet weak var command: CommandRunner!;
     @IBOutlet weak var client: ClientController!;
@@ -29,6 +30,7 @@ class ServerController : NSObject {
     }
     
     func start () -> Promise {
+        self.iconController.working();
         return checkPid().then({ (value: Value) -> Value in
             self.pid = value as Int;
             if (self.pid > 0) {
@@ -46,6 +48,7 @@ class ServerController : NSObject {
                     return self.checkPid();
                 }).then({ (value: Value) -> Value in
                     self.pid = value as Int;
+                    
                     if (self.pid > 0) {
                         NSLog("Emacs server started. PID: " + String(self.pid));
                         self.running = true;
@@ -57,6 +60,9 @@ class ServerController : NSObject {
                     return nil;
                 });
             }
+        }).then({ (value: Value) -> Value in
+            self.iconController.ready();
+            return nil;
         });
     }
     
@@ -65,6 +71,7 @@ class ServerController : NSObject {
     }
     
     func stop () -> Promise {
+        self.iconController.working();
         return client.eval("(kill-emacs)").then({ (value: Value) -> Value in
             return self.checkPid();
         }).then({ (value: Value) -> Value in
@@ -81,6 +88,7 @@ class ServerController : NSObject {
                     return self.checkPid();
                 }).then({ (value: Value) -> Value in
                     self.pid = value as Int;
+                    
                     if (self.pid <= 0) {
                         NSLog("Emacs server stopped.");
                         self.running = false;
@@ -91,6 +99,9 @@ class ServerController : NSObject {
                     return nil;
                 });
             }
+        }).then({ (value: Value) -> Value in
+            self.iconController.normal();
+            return nil;
         });
     }
     

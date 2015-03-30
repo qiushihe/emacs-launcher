@@ -93,11 +93,7 @@
             </items>
             <point key="canvasLocation" x="-1241" y="-655.5"/>
         </menu>
-        <customObject id="iZo-UE-XKW" customClass="CommandRunner" customModule="Emacs_Launcher" customModuleProvider="target">
-            <connections>
-                <outlet property="iconController" destination="KA1-OJ-Cqc" id="NrC-EY-fGz"/>
-            </connections>
-        </customObject>
+        <customObject id="iZo-UE-XKW" customClass="CommandRunner" customModule="Emacs_Launcher" customModuleProvider="target"/>
         <customObject id="4eG-dl-Gp9" customClass="PreferenceController" customModule="Emacs_Launcher" customModuleProvider="target">
             <connections>
                 <outlet property="command" destination="iZo-UE-XKW" id="lLC-k4-QXg"/>
@@ -114,12 +110,14 @@
             <connections>
                 <outlet property="client" destination="bCB-uk-zaM" id="WLK-qb-YBQ"/>
                 <outlet property="command" destination="iZo-UE-XKW" id="XyQ-uY-rG7"/>
+                <outlet property="iconController" destination="KA1-OJ-Cqc" id="52s-Ug-fVH"/>
                 <outlet property="preferenceController" destination="4eG-dl-Gp9" id="Zjq-MU-nLt"/>
             </connections>
         </customObject>
         <customObject id="KA1-OJ-Cqc" customClass="MenubarIconController" customModule="Emacs_Launcher" customModuleProvider="target">
             <connections>
                 <outlet property="app" destination="Voe-Tx-rLC" id="jvR-oW-QP5"/>
+                <outlet property="server" destination="hy8-KI-Cjc" id="JlJ-Qq-iEu"/>
             </connections>
         </customObject>
         <window title="Window" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" oneShot="NO" releasedWhenClosed="NO" showsToolbarButton="NO" visibleAtLaunch="NO" animationBehavior="default" id="dR8-8o-U7Z">
@@ -137,11 +135,10 @@
                         <tabViewItems>
                             <tabViewItem label="General" identifier="1" id="loQ-a4-02k">
                                 <view key="view" id="6dY-dh-lCR">
-                                    <rect key="frame" x="10" y="33" width="434" height="178"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="yeR-oh-wwg">
-                                            <rect key="frame" x="15" y="159" width="404" height="18"/>
+                                            <rect key="frame" x="15" y="-19" width="404" height="18"/>
                                             <buttonCell key="cell" type="check" title="Start Emacs daemon after Emacs Launcher starts" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="kZd-Yu-nWW">
                                                 <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                                 <font key="font" metaFont="system"/>
@@ -151,7 +148,7 @@
                                             </connections>
                                         </button>
                                         <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="HsG-5h-TKE">
-                                            <rect key="frame" x="15" y="139" width="404" height="18"/>
+                                            <rect key="frame" x="15" y="-39" width="404" height="18"/>
                                             <buttonCell key="cell" type="check" title="Stop Emacs daemon before Emacs Launcher exits" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="yK8-WK-EOo">
                                                 <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                                 <font key="font" metaFont="system"/>
@@ -161,18 +158,18 @@
                                             </connections>
                                         </button>
                                         <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="uJh-G9-0Hg">
-                                            <rect key="frame" x="15" y="119" width="404" height="18"/>
+                                            <rect key="frame" x="15" y="-59" width="404" height="18"/>
                                             <buttonCell key="cell" type="check" title="Create a new frame after Emacs Launcher starts" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="9r4-vm-Xg5">
                                                 <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                                 <font key="font" metaFont="system"/>
                                             </buttonCell>
                                             <connections>
-                                                <binding destination="4eG-dl-Gp9" name="enabled" keyPath="startServerAfterLaunch" id="3bE-jO-Xfb"/>
                                                 <binding destination="4eG-dl-Gp9" name="value" keyPath="createNewFrameAfterLaunch" id="Prr-Xa-ATu"/>
+                                                <binding destination="4eG-dl-Gp9" name="enabled" keyPath="startServerAfterLaunch" id="3bE-jO-Xfb"/>
                                             </connections>
                                         </button>
                                         <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="3HA-F2-FQa">
-                                            <rect key="frame" x="15" y="99" width="404" height="18"/>
+                                            <rect key="frame" x="15" y="-79" width="404" height="18"/>
                                             <buttonCell key="cell" type="check" title="Always create new frame for dropped files only" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="1yk-Id-Lf2">
                                                 <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                                 <font key="font" metaFont="system"/>
@@ -182,7 +179,7 @@
                                             </connections>
                                         </button>
                                         <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Pa2-5P-QuE">
-                                            <rect key="frame" x="15" y="79" width="404" height="18"/>
+                                            <rect key="frame" x="15" y="-99" width="404" height="18"/>
                                             <buttonCell key="cell" type="check" title="Always maximize new frames for files" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="VsT-kp-R9c">
                                                 <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                                 <font key="font" metaFont="system"/>
@@ -192,7 +189,7 @@
                                             </connections>
                                         </button>
                                         <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="kvD-Gi-0VW">
-                                            <rect key="frame" x="15" y="59" width="404" height="18"/>
+                                            <rect key="frame" x="15" y="-119" width="404" height="18"/>
                                             <buttonCell key="cell" type="check" title="Always maximize new frames for folders" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="0TN-Iq-6gp">
                                                 <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                                 <font key="font" metaFont="system"/>
