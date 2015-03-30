@@ -30,7 +30,7 @@ class ClientController : NSObject {
                 openFileCommand(path,
                     inNewFrame: preferenceController.readBool("alwaysCreateNewFrameForDroppedFiles"),
                     forFolder: false,
-                    maximizeFrame: preferenceController.readBool("alwaysMaximizeNewFilesFrames"))
+                    maximizeFrame: preferenceController.readBool("maximizeNewFilesFrames"))
             ]));
         }
         
@@ -43,7 +43,7 @@ class ClientController : NSObject {
             openFileCommand(path,
                 inNewFrame: true,
                 forFolder: true,
-                maximizeFrame: preferenceController.readBool("alwaysMaximizeNewFolderFrames"))
+                maximizeFrame: preferenceController.readBool("maximizeNewFolderFrames"))
         ]);
     }
     

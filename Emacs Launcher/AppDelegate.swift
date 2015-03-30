@@ -18,6 +18,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate {
     
     var statusItem: NSStatusItem!;
     var statusItemView: StatusItemView!;
+    var launching: Promise!;
     
     func applicationDidFinishLaunching (aNotification: NSNotification) {
         // TODO: Replace -2 with NSSquareStatusItemLength after Swift fixes its bug
@@ -29,12 +30,19 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate {
         iconController.normal();
         
         if (preferenceController.readBool("startServerAfterLaunch")) {
-            server.start().then({ (value: Value) -> Value in
+            launching = server.start().then({ (value: Value) -> Value in
                 if (self.preferenceController.readBool("createNewFrameAfterLaunch")) {
                     return self.client.launchClient();
                 } else {
                     return nil;
                 }
+            });
+        }
+        
+        if (launching != nil) {
+            launching.then({ (value: Value) -> Value in
+                self.launching = nil;
+                return nil;
             });
         }
     }
@@ -80,13 +88,16 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate {
             }
         }
         
-        if (directoriesCount <= 0 && filesCount > 0) {
-            client.openFiles(files);
-        } else if (directoriesCount == 1 && filesCount <= 0) {
-            client.openFolder(files.first!);
-        } else {
-            // TODO: Show error popup with message for invalid drops
-        }
+        (launching != nil ? launching : server.start()).then({ (value: Value) -> Value in
+            if (directoriesCount <= 0 && filesCount > 0) {
+                self.client.openFiles(files);
+            } else if (directoriesCount == 1 && filesCount <= 0) {
+                self.client.openFolder(files.first!);
+            } else {
+                // TODO: Show error popup with message for invalid drops
+            }
+            return nil;
+        });
     }
     
     func isPathDirectory (path: String) -> Bool {

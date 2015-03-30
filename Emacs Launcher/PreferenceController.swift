@@ -29,8 +29,8 @@ class PreferenceController : NSObject, NSWindowDelegate {
         ensurePreferenceDefault("createNewFrameAfterLaunch", defaultValue: "t");
         ensurePreferenceDefault("maximizeNewFrameAfterLaunch", defaultValue: "t");
         ensurePreferenceDefault("alwaysCreateNewFrameForDroppedFiles", defaultValue: "f");
-        ensurePreferenceDefault("alwaysMaximizeNewFilesFrames", defaultValue: "f");
-        ensurePreferenceDefault("alwaysMaximizeNewFolderFrames", defaultValue: "f");
+        ensurePreferenceDefault("maximizeNewFilesFrames", defaultValue: "f");
+        ensurePreferenceDefault("maximizeNewFolderFrames", defaultValue: "f");
         
         ensurePreferenceDefault("defaultDirectory", defaultValue: NSHomeDirectory());
         ensurePreferenceDefault("serverPath", defaultValue: "/Applications/Emacs.app/Contents/MacOS/Emacs");
@@ -64,14 +64,14 @@ class PreferenceController : NSObject, NSWindowDelegate {
         set (value) { setBool("alwaysCreateNewFrameForDroppedFiles", value: value); }
     }
     
-    var alwaysMaximizeNewFilesFrames: Bool {
-        get { return readBool("alwaysMaximizeNewFilesFrames"); }
-        set (value) { setBool("alwaysMaximizeNewFilesFrames", value: value); }
+    var maximizeNewFilesFrames: Bool {
+        get { return readBool("maximizeNewFilesFrames"); }
+        set (value) { setBool("maximizeNewFilesFrames", value: value); }
     }
     
-    var alwaysMaximizeNewFolderFrames: Bool {
-        get { return readBool("alwaysMaximizeNewFolderFrames"); }
-        set (value) { setBool("alwaysMaximizeNewFolderFrames", value: value); }
+    var maximizeNewFolderFrames: Bool {
+        get { return readBool("maximizeNewFolderFrames"); }
+        set (value) { setBool("maximizeNewFolderFrames", value: value); }
     }
     
     var defaultDirectory: String {
