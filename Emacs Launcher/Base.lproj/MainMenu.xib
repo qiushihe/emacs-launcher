@@ -301,7 +301,7 @@
                                             <rect key="frame" x="15" y="12" width="404" height="42"/>
                                             <textFieldCell key="cell" sendsActionOnEndEditing="YES" id="htS-Co-GcD">
                                                 <font key="font" metaFont="smallSystem"/>
-                                                <string key="title">This is the working for the frame created at launch. Frames created for the dropping of folders will have their working directory set of the path of the folders.</string>
+                                                <string key="title">This is the working for the frame created at launch. Frames created for the dropping of folders will have their working directory set to the path of the folders.</string>
                                                 <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                                 <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                             </textFieldCell>
