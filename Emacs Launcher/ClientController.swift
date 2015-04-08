@@ -19,6 +19,17 @@ class ClientController : NSObject {
         ]);
     }
     
+    @IBAction func openScratch (sender: NSObject) {
+        openScratch();
+    }
+    
+    func openScratch () -> Promise {
+        return command.run(preferenceController.read("clientPath"), args: [
+            "-n", "-e",
+            openScratchCommand(maximizeFrame: preferenceController.readBool("maximizeNewFilesFrames"))
+        ]);
+    }
+    
     func openFiles (paths: Array<String>) -> Promise {
         var promises = Array<Promise>();
         
@@ -51,6 +62,23 @@ class ClientController : NSObject {
         return command.run(preferenceController.read("clientPath"), args: [
             "-e", expression
         ]);
+    }
+    
+    func openScratchCommand (#maximizeFrame: Bool) -> String {
+        var commands = ["(progn"];
+        
+        commands += [
+            "(switch-to-buffer \"*scratch*\")",
+            "(select-frame-set-input-focus (selected-frame))"
+        ];
+        
+        if (maximizeFrame) {
+            commands += [maximizeFrameCommand()];
+        }
+        
+        commands += [")"];
+        
+        return ensureFrameCommand("a-frame", body: " ".join(commands), alwaysNew: true);
     }
     
     func launchClientCommand (#maximizeFrame: Bool) -> String {

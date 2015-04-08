@@ -28,6 +28,22 @@
                     <attributedString key="attributedTitle"/>
                     <modifierMask key="keyEquivalentModifierMask"/>
                 </menuItem>
+                <menuItem title="Open *scratch*" id="Pzw-Au-BZv">
+                    <modifierMask key="keyEquivalentModifierMask"/>
+                    <connections>
+                        <action selector="openScratch:" target="bCB-uk-zaM" id="IYa-1L-sg2"/>
+                        <binding destination="iZo-UE-XKW" name="enabled2" keyPath="busy" previousBinding="95W-EC-zRg" id="RaQ-qd-SNv">
+                            <dictionary key="options">
+                                <integer key="NSMultipleValuesPlaceholder" value="-1"/>
+                                <integer key="NSNoSelectionPlaceholder" value="-1"/>
+                                <integer key="NSNotApplicablePlaceholder" value="-1"/>
+                                <integer key="NSNullPlaceholder" value="-1"/>
+                                <string key="NSValueTransformerName">NSNegateBoolean</string>
+                            </dictionary>
+                        </binding>
+                        <binding destination="hy8-KI-Cjc" name="enabled" keyPath="running" id="95W-EC-zRg"/>
+                    </connections>
+                </menuItem>
                 <menuItem isSeparatorItem="YES" id="Za9-NC-nQg"/>
                 <menuItem title="Start server" tag="200" id="Jdn-GD-Ux3">
                     <modifierMask key="keyEquivalentModifierMask"/>
@@ -96,7 +112,7 @@
                     </connections>
                 </menuItem>
             </items>
-            <point key="canvasLocation" x="-1241" y="-655.5"/>
+            <point key="canvasLocation" x="-1241" y="-668.5"/>
         </menu>
         <customObject id="iZo-UE-XKW" customClass="CommandRunner" customModule="Emacs_Launcher" customModuleProvider="target"/>
         <customObject id="4eG-dl-Gp9" customClass="PreferenceController" customModule="Emacs_Launcher" customModuleProvider="target">
@@ -140,10 +156,11 @@
                         <tabViewItems>
                             <tabViewItem label="General" identifier="1" id="loQ-a4-02k">
                                 <view key="view" id="6dY-dh-lCR">
+                                    <rect key="frame" x="10" y="33" width="434" height="258"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="yeR-oh-wwg">
-                                            <rect key="frame" x="15" y="-19" width="404" height="18"/>
+                                            <rect key="frame" x="15" y="239" width="404" height="18"/>
                                             <buttonCell key="cell" type="check" title="Start Emacs daemon after Emacs Launcher starts" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="kZd-Yu-nWW">
                                                 <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                                 <font key="font" metaFont="system"/>
@@ -153,7 +170,7 @@
                                             </connections>
                                         </button>
                                         <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="HsG-5h-TKE">
-                                            <rect key="frame" x="15" y="-39" width="404" height="18"/>
+                                            <rect key="frame" x="15" y="219" width="404" height="18"/>
                                             <buttonCell key="cell" type="check" title="Stop Emacs daemon before Emacs Launcher exits" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="yK8-WK-EOo">
                                                 <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                                 <font key="font" metaFont="system"/>
@@ -163,7 +180,7 @@
                                             </connections>
                                         </button>
                                         <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="uJh-G9-0Hg">
-                                            <rect key="frame" x="15" y="-89" width="404" height="18"/>
+                                            <rect key="frame" x="15" y="169" width="404" height="18"/>
                                             <buttonCell key="cell" type="check" title="Create a new frame after Emacs Launcher starts" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="9r4-vm-Xg5">
                                                 <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                                 <font key="font" metaFont="system"/>
@@ -174,7 +191,7 @@
                                             </connections>
                                         </button>
                                         <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="swX-cX-hRc">
-                                            <rect key="frame" x="15" y="-109" width="404" height="18"/>
+                                            <rect key="frame" x="15" y="149" width="404" height="18"/>
                                             <buttonCell key="cell" type="check" title="Maximize new frame on launch" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="GBP-tn-hYd">
                                                 <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                                 <font key="font" metaFont="system"/>
@@ -185,7 +202,7 @@
                                             </connections>
                                         </button>
                                         <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="3HA-F2-FQa">
-                                            <rect key="frame" x="15" y="-159" width="404" height="18"/>
+                                            <rect key="frame" x="15" y="99" width="404" height="18"/>
                                             <buttonCell key="cell" type="check" title="Always create new frame for dropped files" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="1yk-Id-Lf2">
                                                 <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                                 <font key="font" metaFont="system"/>
@@ -195,7 +212,7 @@
                                             </connections>
                                         </button>
                                         <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Pa2-5P-QuE">
-                                            <rect key="frame" x="15" y="-223" width="404" height="18"/>
+                                            <rect key="frame" x="15" y="35" width="404" height="18"/>
                                             <buttonCell key="cell" type="check" title="Maximize new frames for files" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="VsT-kp-R9c">
                                                 <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                                 <font key="font" metaFont="system"/>
@@ -206,7 +223,7 @@
                                             </connections>
                                         </button>
                                         <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" setsMaxLayoutWidthAtFirstLayout="YES" translatesAutoresizingMaskIntoConstraints="NO" id="x1a-Pg-5Wf">
-                                            <rect key="frame" x="33" y="-199" width="386" height="34"/>
+                                            <rect key="frame" x="33" y="59" width="386" height="34"/>
                                             <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="left" title="This option affects the dropping of files only. Dropping of folders will always result in a new frame being created." id="y9J-Zg-025">
                                                 <font key="font" metaFont="smallSystem"/>
                                                 <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
@@ -214,7 +231,7 @@
                                             </textFieldCell>
                                         </textField>
                                         <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="kvD-Gi-0VW">
-                                            <rect key="frame" x="15" y="-243" width="404" height="18"/>
+                                            <rect key="frame" x="15" y="15" width="404" height="18"/>
                                             <buttonCell key="cell" type="check" title="Maximize new frames for folders" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="0TN-Iq-6gp">
                                                 <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                                 <font key="font" metaFont="system"/>
@@ -314,6 +331,5 @@
             </view>
             <point key="canvasLocation" x="-1096" y="-352"/>
         </window>
-        <userDefaultsController representsSharedInstance="YES" id="FVY-ec-aci"/>
     </objects>
 </document>
