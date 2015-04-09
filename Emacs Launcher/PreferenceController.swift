@@ -17,9 +17,9 @@ class PreferenceController : NSObject, NSWindowDelegate {
     override init() {
         super.init();
         
-        let data = NSUserDefaults.standardUserDefaults().objectForKey("preferences") as NSData?;
+        let data = NSUserDefaults.standardUserDefaults().objectForKey("preferences") as! NSData?;
         if (data != nil) {
-            preferences = NSKeyedUnarchiver.unarchiveObjectWithData(data!) as Dictionary<String, String>;
+            preferences = NSKeyedUnarchiver.unarchiveObjectWithData(data!) as! Dictionary<String, String>;
         } else {
             preferences = Dictionary<String, String>();
         }

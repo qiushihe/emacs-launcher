@@ -35,7 +35,7 @@ class ServerController : NSObject {
         self.iconController.working();
         
         return checkPid().then({ (value: Value) -> Value in
-            self.pid = value as Int;
+            self.pid = value as! Int;
             if (self.pid > 0) {
                 NSLog("Emacs server is already running. PID: " + String(self.pid));
                 self.running = true;
@@ -50,7 +50,7 @@ class ServerController : NSObject {
                     // TODO: Pipe the output to system console
                     return self.checkPid();
                 }).then({ (value: Value) -> Value in
-                    self.pid = value as Int;
+                    self.pid = value as! Int;
                     
                     if (self.pid > 0) {
                         NSLog("Emacs server started. PID: " + String(self.pid));
@@ -81,7 +81,7 @@ class ServerController : NSObject {
         return client.eval("(kill-emacs)").then({ (value: Value) -> Value in
             return self.checkPid();
         }).then({ (value: Value) -> Value in
-            self.pid = value as Int;
+            self.pid = value as! Int;
             if (self.pid <= 0) {
                 NSLog("Emacs server stopped.");
                 self.running = false;
@@ -93,7 +93,7 @@ class ServerController : NSObject {
                 ]).then({ (value: Value) -> Value in
                     return self.checkPid();
                 }).then({ (value: Value) -> Value in
-                    self.pid = value as Int;
+                    self.pid = value as! Int;
                     
                     if (self.pid <= 0) {
                         NSLog("Emacs server stopped.");
@@ -124,7 +124,7 @@ class ServerController : NSObject {
     
     func checkPid () -> Promise {
         return client.eval("(emacs-pid)").then({ (value: Value) -> Value in
-            let outputPid = (value as String).toInt();
+            let outputPid = (value as! String).toInt();
             if (outputPid != nil) {
                 return outputPid!;
             } else {

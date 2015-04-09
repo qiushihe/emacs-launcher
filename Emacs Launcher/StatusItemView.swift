@@ -102,7 +102,7 @@ class StatusItemView : NSView, NSMenuDelegate {
     override func performDragOperation (sender: NSDraggingInfo) -> Bool {
         if (validDrops[sender.draggingSequenceNumber()] != nil) {
             let pboard = sender.draggingPasteboard();
-            app.openFiles(pboard.propertyListForType(NSFilenamesPboardType) as Array<String>);
+            app.openFiles(pboard.propertyListForType(NSFilenamesPboardType) as! Array<String>);
             validDrops.removeValueForKey(sender.draggingSequenceNumber());
         }
 

@@ -48,7 +48,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate {
     }
     
     func application(sender: NSApplication, openFiles filenames: [AnyObject]) {
-        openFiles(filenames as Array<String>);
+        openFiles(filenames as! Array<String>);
     }
     
     @IBAction func exit (sender: NSObject) {
