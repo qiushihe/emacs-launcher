@@ -28,17 +28,25 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate {
         statusItemView.app = self;
         statusItemView.set(menu: menubarMenu);
         
-        iconController.normal();
-        
-        if (preferenceController.readBool("startServerAfterLaunch")) {
-            server.start().then({ (value: Value) -> Value in
-                if (self.preferenceController.readBool("createNewFrameAfterLaunch")) {
-                    return self.client.launchClient();
-                } else {
-                    return nil;
-                }
-            });
-        }
+        server.checkStatus().then({ (value: Value) -> Value in
+            if ((value as! Dictionary<String, Value>)["running"] as! Bool) {
+                self.iconController.ready();
+            } else {
+                self.iconController.normal();
+            }
+            return nil;
+        }).then({ (value: Value) -> Value in
+            if (self.preferenceController.readBool("startServerAfterLaunch")) {
+                self.server.start().then({ (value: Value) -> Value in
+                    if (self.preferenceController.readBool("createNewFrameAfterLaunch")) {
+                        return self.client.launchClient();
+                    } else {
+                        return nil;
+                    }
+                });
+            }
+            return nil;
+        });
         
         appLaunched.resolve(nil);
     }

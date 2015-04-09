@@ -16,18 +16,8 @@ class ServerController : NSObject {
     @IBOutlet weak var client: ClientController!;
     
     var running = false;
-    var pid = 0;
-    
     var starting: Promise!;
     var stopping: Promise!;
-    
-    func isRunning () -> Bool {
-        return running;
-    }
-    
-    func getPid () -> Int {
-        return pid;
-    }
     
     @IBAction func start (sender: NSObject) {
         start();
@@ -38,37 +28,33 @@ class ServerController : NSObject {
             statusMenuItem.title = "Server Starting";
             iconController.working();
             
-            starting = checkPid().then({ (value: Value) -> Value in
-                self.pid = value as! Int;
-                if (self.pid > 0) {
-                    NSLog("Emacs server is already running. PID: " + String(self.pid));
-                    self.running = true;
-                    return nil;
+            starting = checkStatus().then({ (value: Value) -> Value in
+                let status = value as! Dictionary<String, Value>;
+                if (status["running"] as! Bool) {
+                    NSLog("Emacs server is already running. PID: " + String(status["pid"] as! Int));
+                    return status;
                 } else {
                     // Start Emacs daemon with a bash login shell in order for the daemon process to have
                     // access to all $PATH.
                     return self.command.run("/bin/bash", args: [
                         "-l", "-c",
                         self.preferenceController.read("serverPath") + " --daemon"
-                        ]).then({ (value: Value) -> Value in
-                            // TODO: Pipe the output to system console
-                            return self.checkPid();
-                        }).then({ (value: Value) -> Value in
-                            self.pid = value as! Int;
-                            
-                            if (self.pid > 0) {
-                                NSLog("Emacs server started. PID: " + String(self.pid));
-                                self.running = true;
-                            } else {
-                                NSLog("Error starting Emacs server!");
-                                self.running = false;
-                            }
-                            
-                            return nil;
-                        });
+                    ]).then({ (value: Value) -> Value in
+                        // TODO: Pipe the output to system console
+                        return self.checkStatus();
+                    }).then({ (value: Value) -> Value in
+                        let status = value as! Dictionary<String, Value>;
+                        if (status["running"] as! Bool) {
+                            NSLog("Emacs server started. PID: " + String(status["pid"] as! Int));
+                        } else {
+                            NSLog("Error starting Emacs server!");
+                        }
+                        return status;
+                    });
                 }
             }).then({ (value: Value) -> Value in
-                self.statusMenuItem.title = "Server PID: " + String(self.pid);
+                let status = value as! Dictionary<String, Value>;
+                self.statusMenuItem.title = "Server PID: " + String(status["pid"] as! Int);
                 self.iconController.ready();
                 self.starting = nil;
                 return nil;
@@ -88,33 +74,30 @@ class ServerController : NSObject {
             self.iconController.working();
             
             stopping = client.eval("(kill-emacs)").then({ (value: Value) -> Value in
-                return self.checkPid();
+                return self.checkStatus();
             }).then({ (value: Value) -> Value in
-                self.pid = value as! Int;
-                if (self.pid <= 0) {
+                let status = value as! Dictionary<String, Value>;
+                if (!(status["running"] as! Bool)) {
                     NSLog("Emacs server stopped.");
-                    self.running = false;
-                    return nil;
+                    return status;
                 } else {
                     return self.command.run("/bin/kill", args: [
                         "-KILL",
-                        String(self.pid)
-                        ]).then({ (value: Value) -> Value in
-                            return self.checkPid();
-                        }).then({ (value: Value) -> Value in
-                            self.pid = value as! Int;
-                            
-                            if (self.pid <= 0) {
-                                NSLog("Emacs server stopped.");
-                                self.running = false;
-                            } else {
-                                NSLog("Error stopping Emacs server!");
-                                self.running = true;
-                            }
-                            return nil;
-                        });
+                        String(status["pid"] as! Int)
+                    ]).then({ (value: Value) -> Value in
+                        return self.checkStatus();
+                    }).then({ (value: Value) -> Value in
+                        let status = value as! Dictionary<String, Value>;
+                        if (!(status["running"] as! Bool)) {
+                            NSLog("Emacs server stopped.");
+                        } else {
+                            NSLog("Error stopping Emacs server!");
+                        }
+                        return status;
+                    });
                 }
             }).then({ (value: Value) -> Value in
+                let status = value as! Dictionary<String, Value>;
                 self.statusMenuItem.title = "Server Not Running";
                 self.iconController.normal();
                 self.stopping = nil;
@@ -135,14 +118,14 @@ class ServerController : NSObject {
         });
     }
     
-    func checkPid () -> Promise {
+    func checkStatus () -> Promise {
         return client.eval("(emacs-pid)").then({ (value: Value) -> Value in
-            let outputPid = (value as! String).toInt();
-            if (outputPid != nil) {
-                return outputPid!;
-            } else {
-                return 0;
+            var pid = (value as! String).toInt();
+            if (pid == nil) {
+                pid = 0;
             }
+            self.running = pid! != 0;
+            return ["pid": pid!, "running": self.running] as Dictionary<String, Value>;
         });
     }
 }
