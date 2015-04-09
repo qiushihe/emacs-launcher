@@ -19,7 +19,8 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate {
     var statusItem: NSStatusItem!;
     var statusItemView: StatusItemView!;
     
-    var appLaunched = Deferred.create();
+    var appLaunchDeferred = Deferred.create();
+    var appLaunched = false;
     
     func applicationDidFinishLaunching (aNotification: NSNotification) {
         // TODO: Replace -2 with NSSquareStatusItemLength after Swift fixes its bug
@@ -48,11 +49,24 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate {
             return nil;
         });
         
-        appLaunched.resolve(nil);
+        appLaunchDeferred.resolve(nil);
+        appLaunched = true;
     }
     
     func application(sender: NSApplication, openFiles filenames: [AnyObject]) {
-        appLaunched.promise.then({ (value: Value) -> Value in
+        // Craft's deferred promise can't be chained after the deferred is
+        // resolved (possible a bug?). So we'll have to keep track using an
+        // extra boolean variable.
+
+        var launchPromise = appLaunchDeferred.promise;
+        if (appLaunched) {
+            launchPromise = Craft.promise({
+                (resolve: (value: Value) -> (), reject: (value: Value) -> ()) -> () in
+                resolve(value: nil);
+            });
+        }
+        
+        launchPromise.then({ (value: Value) -> Value in
             self.openFiles(filenames as! Array<String>);
             return nil;
         });
@@ -113,5 +127,11 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate {
             println(isDirectory)
         }
         return Bool(isDirectory);
+    }
+    
+    func alert(message: String) {
+        let alert = NSAlert();
+        alert.messageText = message;
+        alert.runModal();
     }
 }
