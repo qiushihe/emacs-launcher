@@ -10,7 +10,7 @@ _-- an OS X menubar app to conveniently manage Emacs in server/client mode and o
 
 ## Why?
 
-Emacs launches slowly. Every time you run `emacs some.file` a new instance of Emacs is launched and it takes a _really long time_ to load all the scripts/plugins/etc before you can actually edit the file.
+Emacs launches slowly. Every time you run `emacs some.file` a new instance of Emacs is launched and it takes a _really long time_ to load all the scripts/plugins/etc. before you can actually edit the file.
 
 There is a faster way to use Eamcs. Emacs can be used in server/client mode where the server only need to be launched once (via `emacs --daemon`) and each client can be launched pretty much instantly (via `emacsclient some.file`) and connect to the server to do the editing.
 
@@ -20,7 +20,7 @@ So in comes **Emacs launcher**, an OS X menubar app to conveniently manage Emacs
 
 ## What does it do?
 
-The way Emacs Launcher works is very simply. You can open files with Emacs Launcher by either ...
+The way Emacs Launcher works is very simple. You can open files with Emacs Launcher by either ...
 
 * Dragging'n Dropping onto the menubar icon; or ...
 * Selecting "Open with ..." from Finder
@@ -28,9 +28,9 @@ The way Emacs Launcher works is very simply. You can open files with Emacs Launc
 ... and at which point Emacs Launcher will ...
 
 1. Check if there is a running instance of Emacs in daemon mode, and if there isn't then launch one
-2. Launch an instance of Emacs client to connect the the daemon from the previous step
+2. Launch an instance of Emacs client to connect to the daemon from the previous step
 
-Really? _"Ensure server is running before launching client to connect to it."_ That sounds like something that should be built into Emacs, if you ask me.
+Really? _"Ensure server is running before launching client to connect to server."_ That sounds like something that should be built into Emacs, if you ask me.
 
 ## Screen shots
 
@@ -40,7 +40,7 @@ And this is what Emacs Launcher looks like:
 
 ![](Screen Shot 2.png)
 
-From the preferences window screen shots below you can see that Emacs Launcher comes with a few modern conveniences as well:
+From the preferences window screenshots below you can see that Emacs Launcher comes with a few modern conveniences as well:
 
 ![](Screen Shot 3.png)
 
@@ -48,7 +48,7 @@ From the preferences window screen shots below you can see that Emacs Launcher c
 
 ## Alternative
 
-If graphical user interface it just not your thing but you still want the convenience of a managed Emacs server/client setup (i.e. the _Ensure server is running before launching client to connect to it_ part), you can use this handy shell script instead: https://github.com/qiushihe/dotpiles/blob/master/emacs/emacsl.sh. As an added bonus the shell script is comptiable of Emacs Launcher (i.e. they can start/stop/restart each other's server instance).
+If graphical user interface is just not your thing but you still want the convenience of a managed Emacs server/client setup (i.e. the _Ensure server is running before launching client to connect to server_ part), you can use this handy shell script instead: https://github.com/qiushihe/dotpiles/blob/master/emacs/emacsl.sh. As an added bonus the shell script is comptiable with Emacs Launcher (i.e. they can start/stop/restart each other's server instance).
 
 ## TODO
 
