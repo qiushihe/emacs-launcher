@@ -4,7 +4,7 @@
 
 _-- an OS X menubar app to conveniently manage Emacs in server/client mode and offers OS X integrations such as Drag'n Drop and "Open with ..." support._
 
-[Download Emacs Launcher](https://github.com/qiushihe/emacs-launcher/raw/master/Emacs Launcher.app.zip)
+[Download Emacs Launcher](https://github.com/qiushihe/emacs-launcher/raw/master/Emacs%20Launcher.app.zip)
 
 [Download Emacs for OS X](http://emacsformacosx.com) if you haven't already ...
 
