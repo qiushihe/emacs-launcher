@@ -36,15 +36,15 @@ Really? _"Ensure server is running before launching client to connect to server.
 
 And this is what Emacs Launcher looks like:
 
-![](Screen Shot 1.png)
+![](https://raw.githubusercontent.com/qiushihe/emacs-launcher/master/Screen%20Shot%201.png)
 
-![](Screen Shot 2.png)
+![](https://raw.githubusercontent.com/qiushihe/emacs-launcher/master/Screen%20Shot%202.png)
 
 From the preferences window screenshots below you can see that Emacs Launcher comes with a few modern conveniences as well:
 
-![](Screen Shot 3.png)
+![](https://raw.githubusercontent.com/qiushihe/emacs-launcher/master/Screen%20Shot%203.png)
 
-![](Screen Shot 4.png)
+![](https://raw.githubusercontent.com/qiushihe/emacs-launcher/master/Screen%20Shot%204.png)
 
 ## Alternative
 
