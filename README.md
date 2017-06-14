@@ -48,7 +48,7 @@ From the preferences window screenshots below you can see that Emacs Launcher co
 
 ## Alternative
 
-If graphical user interface is just not your thing but you still want the convenience of a managed Emacs server/client setup (i.e. the _Ensure server is running before launching client to connect to server_ part), you can use this handy shell script instead: https://github.com/qiushihe/dotpiles/blob/master/emacs/emacsl.sh. As an added bonus the shell script is comptiable with Emacs Launcher (i.e. they can start/stop/restart each other's server instance).
+If graphical user interface is just not your thing but you still want the convenience of a managed Emacs server/client setup (i.e. the _Ensure server is running before launching client to connect to server_ part), you can use this handy shell script instead: https://github.com/qiushihe/dotpiles/blob/master/emacs-old/emacsl.sh. As an added bonus the shell script is comptiable with Emacs Launcher (i.e. they can start/stop/restart each other's server instance).
 
 ## TODO
 
