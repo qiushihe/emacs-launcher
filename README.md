@@ -1,6 +1,6 @@
 # Emacs Launcher
 
-![](Emacs Launcher/Images.xcassets/AppIcon.appiconset/App Iconw128.png)
+![](https://raw.githubusercontent.com/qiushihe/emacs-launcher/master/Emacs%20Launcher/Images.xcassets/AppIcon.appiconset/App%20Iconw128.png)
 
 _-- an OS X menubar app to conveniently manage Emacs in server/client mode and offers OS X integrations such as Drag'n Drop and "Open with ..." support._
 
